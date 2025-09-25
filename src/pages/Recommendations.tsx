@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Badge from '../components/ui/Badge';
-import { farmerApi, recommendationApi } from '../services/api';
+import { recommendationApi } from '../services/api';
 import { zoneService } from '../services/zoneService';
 import { formatDate, formatTemperature, formatHumidity, formatRainfall, formatWaterVolume } from '../utils/format';
 import { Recommendation } from '../types';
@@ -33,7 +33,6 @@ const Recommendations: React.FC = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: farmersData } = useQuery('farmers', () => farmerApi.getAll());
   const { isLoading } = useQuery(
     'recommendations',
     () => recommendationApi.getByFarmer(1), // This would need to be updated to get all recommendations
@@ -197,7 +196,6 @@ const Recommendations: React.FC = () => {
   ] : [];
 
   const filteredRecommendations = mockRecommendations.filter(rec => {
-    const zone = farmerZones.find(z => z.name === rec.locationName);
     const matchesSearch = rec.locationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          rec.cropType.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          rec.recommendation.toLowerCase().includes(searchTerm.toLowerCase());

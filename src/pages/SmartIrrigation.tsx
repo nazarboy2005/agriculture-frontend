@@ -23,7 +23,7 @@ import Input from '../components/ui/Input';
 import Badge from '../components/ui/Badge';
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
-import { userDataService, IrrigationData, SavedIrrigationData } from '../services/userDataService';
+import { userDataService, IrrigationData } from '../services/userDataService';
 import { zoneService } from '../services/zoneService';
 import { savedPlanService, SavedIrrigationPlan, SavePlanRequest } from '../services/savedPlanService';
 import RecommendationGenerator from '../components/RecommendationGenerator';
@@ -99,7 +99,7 @@ const SmartIrrigation: React.FC = () => {
         }
       } else {
         // Load user's saved data
-        const userData = userDataService.getUserIrrigationData(user.id);
+        userDataService.getUserIrrigationData(user.id);
         
         // Load default data if available
         const defaultData = userDataService.getDefaultIrrigationData(user.id);
