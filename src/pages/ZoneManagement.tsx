@@ -3,8 +3,6 @@ import {
   MapPin, 
   Plus, 
   Trash2, 
-  Target,
-  Settings,
   Edit,
   Save,
   X,
@@ -13,7 +11,6 @@ import {
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import Badge from '../components/ui/Badge';
 import { useAuth } from '../contexts/AuthContext';
 import { zoneService } from '../services/zoneService';
 import toast from 'react-hot-toast';

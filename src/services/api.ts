@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 import { 
   Farmer, 
   Recommendation, 
-  Weather, 
   AlertLog, 
   AdminMetrics, 
   WaterSavings, 

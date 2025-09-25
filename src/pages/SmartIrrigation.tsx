@@ -260,37 +260,6 @@ const SmartIrrigation: React.FC = () => {
     }
   };
 
-  // Load saved data
-  const handleLoadData = (dataId: string) => {
-    if (!user) return;
-    
-    const data = userDataService.getIrrigationDataById(user.id, dataId);
-    if (data) {
-      loadDataIntoForm(data.data);
-      setShowSavedData(false);
-      toast.success('Data loaded successfully!');
-    }
-  };
-
-  // Delete saved data
-  const handleDeleteData = (dataId: string) => {
-    if (!user) return;
-    
-    if (userDataService.deleteIrrigationData(user.id, dataId)) {
-      setSavedData(prev => prev.filter(item => item.id !== dataId));
-      toast.success('Data deleted successfully!');
-    }
-  };
-
-  // Set default data
-  const handleSetDefault = (dataId: string) => {
-    if (!user) return;
-    
-    if (userDataService.setDefaultIrrigationData(user.id, dataId)) {
-      setSavedData(prev => prev.map(item => ({ ...item, isDefault: item.id === dataId })));
-      toast.success('Default data updated!');
-    }
-  };
 
   const handleSavePDF = () => {
     if (!planGenerated || irrigationPlan.length === 0) {
@@ -487,21 +456,6 @@ const SmartIrrigation: React.FC = () => {
     }
   };
 
-  const handleDeleteZone = async (zoneId: string) => {
-    if (!user) return;
-    
-    try {
-      await zoneService.deleteZone(user.id, parseInt(zoneId));
-      setFarmerZones(prev => prev.filter(z => z.id !== zoneId));
-      if (selectedZone === zoneId) {
-        setSelectedZone('');
-      }
-      toast.success('Zone deleted successfully!');
-    } catch (error) {
-      console.error('Error deleting zone:', error);
-      toast.error('Failed to delete zone');
-    }
-  };
 
   // Get user's current location
   const handleGetCurrentLocation = () => {
