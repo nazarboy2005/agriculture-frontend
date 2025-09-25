@@ -33,7 +33,7 @@ const Alerts: React.FC = () => {
   const queryClient = useQueryClient();
 
   const { data: farmersData } = useQuery('farmers', () => farmerApi.getAll());
-  const { data: alerts, isLoading } = useQuery(
+  const { isLoading } = useQuery(
     'alerts',
     () => alertApi.getByStatus('all'),
     { enabled: false } // Disabled for now since the endpoint needs implementation
