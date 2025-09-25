@@ -7,9 +7,6 @@ import {
   TrendingUp, 
   Download, 
   Settings,
-  BarChart3,
-  FileText,
-  Calendar,
   MapPin,
   Crop
 } from 'lucide-react';
@@ -18,8 +15,8 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/ui/Table';
 import Badge from '../components/ui/Badge';
-import { farmerApi, adminApi } from '../services/api';
-import { formatDate, formatNumber, formatWaterVolume } from '../utils/format';
+import { farmerApi } from '../services/api';
+import { formatDate, formatWaterVolume } from '../utils/format';
 
 const Admin: React.FC = () => {
   const [dateRange, setDateRange] = useState({

@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import { Droplets, LogIn, Loader, Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Droplets, Loader, Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authApi } from '../services/api';
 
@@ -262,13 +262,13 @@ const Login: React.FC = () => {
             <div className="text-center pt-4 border-t border-gray-200">
               <p className="text-xs text-gray-500">
                 By signing in, you agree to our{' '}
-                <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+                <button className="text-blue-600 hover:text-blue-700 font-medium">
                   Terms of Service
-                </a>{' '}
+                </button>{' '}
                 and{' '}
-                <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+                <button className="text-blue-600 hover:text-blue-700 font-medium">
                   Privacy Policy
-                </a>
+                </button>
               </p>
             </div>
           </CardContent>

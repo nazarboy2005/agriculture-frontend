@@ -17,7 +17,7 @@ import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import { farmerApi, recommendationApi, alertApi } from '../services/api';
-import { formatDate, formatPhoneNumber, formatTemperature, formatHumidity, formatRainfall } from '../utils/format';
+import { formatDate, formatPhoneNumber } from '../utils/format';
 
 const FarmerDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

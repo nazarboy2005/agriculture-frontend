@@ -7,7 +7,6 @@ import {
   Droplets, 
   Bell, 
   TrendingUp, 
-  Thermometer,
   CloudRain,
   MapPin
 } from 'lucide-react';
@@ -87,8 +86,6 @@ const Dashboard: React.FC = () => {
   ];
 
   // Real data will be fetched from APIs when available
-  const weatherData: any[] = [];
-  const recentAlerts: any[] = [];
 
   if (farmersLoading || smsLoading || alertsLoading) {
     return (

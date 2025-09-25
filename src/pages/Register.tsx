@@ -308,13 +308,13 @@ const Register: React.FC = () => {
             <div className="text-center pt-4 border-t border-gray-200">
               <p className="text-xs text-gray-500">
                 By creating an account, you agree to our{' '}
-                <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+                <button className="text-blue-600 hover:text-blue-700 font-medium">
                   Terms of Service
-                </a>{' '}
+                </button>{' '}
                 and{' '}
-                <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+                <button className="text-blue-600 hover:text-blue-700 font-medium">
                   Privacy Policy
-                </a>
+                </button>
               </p>
             </div>
           </CardContent>

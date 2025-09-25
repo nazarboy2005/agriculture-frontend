@@ -15,7 +15,6 @@ import {
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/ui/Table';
 import Badge from '../components/ui/Badge';
 import { farmerApi, recommendationApi } from '../services/api';
 import { zoneService } from '../services/zoneService';
@@ -69,7 +68,6 @@ const Recommendations: React.FC = () => {
     }
   );
 
-  const farmers = farmersData?.data?.data || [];
   
   // Load zones for the current user
   useEffect(() => {
@@ -346,10 +344,8 @@ const Recommendations: React.FC = () => {
       {/* Recommendations Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredRecommendations.map((rec) => {
-          const zone = farmerZones.find(z => z.name === rec.locationName);
           const isHighPriority = rec.recommendation === 'HIGH';
           const isModeratePriority = rec.recommendation === 'MODERATE';
-          const isLowPriority = rec.recommendation === 'LOW';
           
           return (
             <Card key={rec.id} className={`relative overflow-hidden transition-all duration-200 hover:shadow-lg ${

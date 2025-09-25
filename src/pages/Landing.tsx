@@ -4,21 +4,14 @@ import {
   Droplets, 
   Thermometer, 
   Lightbulb, 
-  Shield, 
   Search,
   BarChart3,
   ArrowRight,
-  CheckCircle,
   Star,
-  Globe,
-  Smartphone,
-  CloudRain,
   Leaf,
-  Zap,
   MessageCircle,
   MapPin,
-  Bell,
-  TrendingUp
+  Bell
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { Card } from '../components/ui/Card';

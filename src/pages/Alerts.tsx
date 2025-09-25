@@ -19,7 +19,7 @@ import Input from '../components/ui/Input';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/ui/Table';
 import Badge from '../components/ui/Badge';
 import { farmerApi, alertApi } from '../services/api';
-import { formatDate, formatDateTime } from '../utils/format';
+import { formatDateTime } from '../utils/format';
 import { AlertLog } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -29,12 +29,11 @@ const Alerts: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [filterType, setFilterType] = useState('');
-  const [selectedFarmer, setSelectedFarmer] = useState<number | null>(null);
 
   const queryClient = useQueryClient();
 
   const { data: farmersData } = useQuery('farmers', () => farmerApi.getAll());
-  const { data: alertsData, isLoading } = useQuery(
+  const { data: alerts, isLoading } = useQuery(
     'alerts',
     () => alertApi.getByStatus('all'),
     { enabled: false } // Disabled for now since the endpoint needs implementation

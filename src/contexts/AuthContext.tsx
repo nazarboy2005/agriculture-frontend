@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (token && !user) {
       fetchUserData();
     }
-  }, [token]);
+  }, [token, user]);
 
   const fetchUserData = async () => {
     try {

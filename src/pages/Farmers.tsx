@@ -5,7 +5,6 @@ import {
   Plus, 
   Search, 
   Filter, 
-  MoreVertical, 
   Edit, 
   Trash2, 
   Eye,
@@ -20,7 +19,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '.
 import Badge from '../components/ui/Badge';
 import Modal from '../components/ui/Modal';
 import { farmerApi } from '../services/api';
-import { formatDate, formatPhoneNumber } from '../utils/format';
+import { formatPhoneNumber } from '../utils/format';
 import { Farmer, CreateFarmerData } from '../types';
 import toast from 'react-hot-toast';
 
@@ -35,12 +34,6 @@ const Farmers: React.FC = () => {
   const queryClient = useQueryClient();
 
   const { data: farmersData, isLoading } = useQuery('farmers', () => farmerApi.getAll());
-  const { data: locationsData } = useQuery('locations', () => 
-    farmerApi.getByLocation('all').catch(() => ({ data: { data: [] } }))
-  );
-  const { data: cropsData } = useQuery('crops', () => 
-    farmerApi.getByCrop('all').catch(() => ({ data: { data: [] } }))
-  );
 
   const createMutation = useMutation(farmerApi.create, {
     onSuccess: () => {

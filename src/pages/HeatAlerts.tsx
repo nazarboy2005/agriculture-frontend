@@ -3,26 +3,20 @@ import {
   Thermometer, 
   AlertTriangle, 
   Sun, 
-  Cloud, 
-  Wind, 
   Droplets,
   MapPin,
-  Calendar,
-  Clock,
-  TrendingUp,
-  TrendingDown,
   RefreshCw,
   Bell,
   Settings,
   Plus,
   Trash2,
-  Target
+  Target,
+  Clock
 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Badge from '../components/ui/Badge';
-import { formatDate, formatTime } from '../utils/format';
 import { useAuth } from '../contexts/AuthContext';
 import { zoneService } from '../services/zoneService';
 import RecommendationGenerator from '../components/RecommendationGenerator';

@@ -69,7 +69,6 @@ const SmartIrrigation: React.FC = () => {
   const [planGenerated, setPlanGenerated] = useState(false);
   
   // New state for user data management
-  const [savedData, setSavedData] = useState<SavedIrrigationData[]>([]);
   const [savedPlans, setSavedPlans] = useState<SavedIrrigationPlan[]>([]);
   const [showSavedData, setShowSavedData] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -92,7 +91,6 @@ const SmartIrrigation: React.FC = () => {
       if (demoUser) {
         // Load demo data for test@gmail.com
         const demoData = userDataService.getDemoData();
-        setSavedData(demoData);
         
         // Load default demo data into form
         const defaultData = demoData.find(item => item.isDefault);
@@ -102,7 +100,6 @@ const SmartIrrigation: React.FC = () => {
       } else {
         // Load user's saved data
         const userData = userDataService.getUserIrrigationData(user.id);
-        setSavedData(userData);
         
         // Load default data if available
         const defaultData = userDataService.getDefaultIrrigationData(user.id);

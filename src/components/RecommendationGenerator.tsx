@@ -5,9 +5,6 @@ import Input from './ui/Input';
 import Badge from './ui/Badge';
 import { 
   Lightbulb, 
-  MapPin, 
-  Calendar, 
-  Wheat, 
   Droplets, 
   Thermometer,
   TrendingUp,
