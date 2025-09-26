@@ -1,6 +1,6 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -26,6 +26,17 @@ import DiseaseDetection from './pages/DiseaseDetection';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
 
+// Component to handle root route redirect
+const RootRedirect: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return <Landing />;
+};
+
 function App() {
   return (
     <ErrorBoundary>
@@ -33,7 +44,7 @@ function App() {
         <PerformanceMonitor />
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-green-50">
           <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<RootRedirect />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth/callback/google" element={<AuthCallback />} />
@@ -41,13 +52,6 @@ function App() {
         <Route path="/auth/confirm-email" element={<ConfirmEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Layout>
-              <Dashboard />
-            </Layout>
-          </ProtectedRoute>
-        } />
         <Route path="/farmers" element={
           <ProtectedRoute requireAdmin>
             <Layout>

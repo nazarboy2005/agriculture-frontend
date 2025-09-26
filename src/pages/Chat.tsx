@@ -13,7 +13,6 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import MessageBubble from '../components/chat/MessageBubble';
 import TypingIndicator from '../components/chat/TypingIndicator';
-import QuickActions from '../components/chat/QuickActions';
 import ChatStats from '../components/chat/ChatStats';
 import ChatInput from '../components/chat/ChatInput';
 import { chatApi } from '../services/api';
@@ -66,24 +65,20 @@ const Chat: React.FC = () => {
       chatApi.sendMessage(farmerId, message, messageType),
     {
       onSuccess: (response) => {
-        // console.log('Message sent successfully:', response);
+        console.log('Message sent successfully:', response);
         setConnectionStatus('connected');
         const chatData = response?.data?.data;
         if (chatData) {
           setLocalMessages(prev => {
-            // Remove the temporary message and add the real response
-            const filtered = prev.filter(msg => msg.tempId !== chatData.tempId);
+            // Remove the temporary "Thinking..." message and add the real response
+            const filtered = prev.filter(msg => msg.aiResponse !== 'Thinking...');
             return [chatData, ...filtered];
           });
         } else {
           console.warn('No chat data in response:', response);
           // If no chat data, just remove the temporary message
           setLocalMessages(prev => {
-            const tempId = prev.find(msg => msg.aiResponse === 'Thinking...')?.tempId;
-            if (tempId) {
-              return prev.filter(msg => msg.tempId !== tempId);
-            }
-            return prev;
+            return prev.filter(msg => msg.aiResponse !== 'Thinking...');
           });
         }
         setIsTyping(false);
@@ -93,11 +88,7 @@ const Chat: React.FC = () => {
         setConnectionStatus('disconnected');
         // Remove the temporary message on error
         setLocalMessages(prev => {
-          const tempId = prev.find(msg => msg.aiResponse === 'Thinking...')?.tempId;
-          if (tempId) {
-            return prev.filter(msg => msg.tempId !== tempId);
-          }
-          return prev;
+          return prev.filter(msg => msg.aiResponse !== 'Thinking...');
         });
         setIsTyping(false);
         setIsRetrying(false);
@@ -560,15 +551,6 @@ const Chat: React.FC = () => {
                 </div>
               </div>
 
-              {/* Quick Actions */}
-              <div className="p-4 border-b border-gray-200">
-                <QuickActions
-                  onQuestionSelect={(question, type) => {
-                    setMessage(question);
-                    setMessageType(type);
-                  }}
-                />
-              </div>
 
               {/* Chat Stats */}
               <div className="p-4">
