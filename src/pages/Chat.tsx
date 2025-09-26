@@ -88,7 +88,7 @@ const Chat: React.FC = () => {
         }
         setIsTyping(false);
       },
-      onError: (error) => {
+      onError: (error: any) => {
         console.error('Failed to send message:', error);
         setConnectionStatus('disconnected');
         // Remove the temporary message on error
