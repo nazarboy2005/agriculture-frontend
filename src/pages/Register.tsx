@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import { Droplets, Mail, Lock, Eye, EyeOff, User, ArrowRight, Loader } from 'lucide-react';
+import { Droplets, Mail, Lock, Eye, EyeOff, User, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authApi } from '../services/api';
 
