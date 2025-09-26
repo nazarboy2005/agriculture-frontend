@@ -30,6 +30,9 @@ const Chat: React.FC = () => {
   const [currentChatId, setCurrentChatId] = useState<number | null>(null);
   const [showHistory, setShowHistory] = useState(false);
   const [localMessages, setLocalMessages] = useState<any[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isRetrying, setIsRetrying] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<'connected' | 'disconnected' | 'connecting'>('connected');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
@@ -63,6 +66,8 @@ const Chat: React.FC = () => {
       chatApi.sendMessage(farmerId, message, messageType),
     {
       onSuccess: (response) => {
+        // console.log('Message sent successfully:', response);
+        setConnectionStatus('connected');
         const chatData = response?.data?.data;
         if (chatData) {
           setLocalMessages(prev => {
@@ -70,10 +75,22 @@ const Chat: React.FC = () => {
             const filtered = prev.filter(msg => msg.tempId !== chatData.tempId);
             return [chatData, ...filtered];
           });
+        } else {
+          console.warn('No chat data in response:', response);
+          // If no chat data, just remove the temporary message
+          setLocalMessages(prev => {
+            const tempId = prev.find(msg => msg.aiResponse === 'Thinking...')?.tempId;
+            if (tempId) {
+              return prev.filter(msg => msg.tempId !== tempId);
+            }
+            return prev;
+          });
         }
         setIsTyping(false);
       },
       onError: (error) => {
+        console.error('Failed to send message:', error);
+        setConnectionStatus('disconnected');
         // Remove the temporary message on error
         setLocalMessages(prev => {
           const tempId = prev.find(msg => msg.aiResponse === 'Thinking...')?.tempId;
@@ -83,7 +100,16 @@ const Chat: React.FC = () => {
           return prev;
         });
         setIsTyping(false);
-        console.error('Failed to send message:', error);
+        setIsRetrying(false);
+        
+        // Set user-friendly error message
+        const errorMsg = error?.response?.data?.message || 
+                        error?.message || 
+                        'Failed to send message. Please check your connection and try again.';
+        setErrorMessage(errorMsg);
+        
+        // Auto-clear error after 5 seconds
+        setTimeout(() => setErrorMessage(''), 5000);
       },
     }
   );
@@ -104,6 +130,11 @@ const Chat: React.FC = () => {
   // Use local messages for immediate display
   const chats = localMessages;
   
+  // Debug logging (remove in production)
+  // console.log('Local messages:', chats);
+  // console.log('Search query:', searchQuery);
+  // console.log('Filter type:', filterType);
+  
   // Sort chats by creation date (oldest first for better conversation flow)
   const sortedChats = [...chats].sort((a, b) => 
     new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -122,14 +153,21 @@ const Chat: React.FC = () => {
   const displayChats = currentChatId 
     ? filteredChats.filter(chat => chat.id === currentChatId)
     : filteredChats;
+    
+  // console.log('Display chats:', displayChats);
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    if (!message.trim() || sendMessageMutation.isLoading) return;
+
+    // Clear any previous errors
+    setErrorMessage('');
 
     const tempId = Date.now();
     const userMessage = message;
     const messageTypeToSend = messageType;
+
+    // console.log('Sending message:', { userMessage, messageTypeToSend, farmerId, tempId });
 
     // Add message immediately to local state
     const newMessage = {
@@ -145,11 +183,30 @@ const Chat: React.FC = () => {
       userFeedback: null
     };
 
-    setLocalMessages(prev => [newMessage, ...prev]);
+    // console.log('Adding temporary message:', newMessage);
+    setLocalMessages(prev => {
+      const updated = [newMessage, ...prev];
+      // console.log('Updated local messages:', updated);
+      return updated;
+    });
     setMessage('');
     setIsTyping(true);
     
+    // console.log('Calling sendMessageMutation.mutate');
     sendMessageMutation.mutate({ message: userMessage, messageType: messageTypeToSend });
+  };
+
+  const handleRetry = () => {
+    setIsRetrying(true);
+    setErrorMessage('');
+    // Retry the last failed message
+    const lastMessage = localMessages.find(msg => msg.aiResponse === 'Thinking...');
+    if (lastMessage) {
+      sendMessageMutation.mutate({ 
+        message: lastMessage.userMessage, 
+        messageType: lastMessage.messageType 
+      });
+    }
   };
 
   const handleFeedback = (chatId: number, isHelpful: boolean) => {
@@ -217,12 +274,31 @@ const Chat: React.FC = () => {
                 AI Farm Assistant
               </h1>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span className="text-xs sm:text-sm text-gray-600 font-medium">Online & Ready</span>
+                <div className={`w-2 h-2 rounded-full ${
+                  connectionStatus === 'connected' 
+                    ? 'bg-emerald-500 animate-pulse' 
+                    : connectionStatus === 'connecting'
+                    ? 'bg-yellow-500 animate-pulse'
+                    : 'bg-red-500 animate-pulse'
+                }`}></div>
+                <span className="text-xs sm:text-sm text-gray-600 font-medium">
+                  {connectionStatus === 'connected' 
+                    ? 'Online & Ready' 
+                    : connectionStatus === 'connecting'
+                    ? 'Connecting...'
+                    : 'Connection Lost'
+                  }
+                </span>
               </div>
             </div>
           </div>
           <div className="flex items-center space-x-2 flex-shrink-0">
+            {displayChats.length > 0 && (
+              <div className="hidden sm:flex items-center space-x-2 text-xs text-gray-600 bg-white/20 px-2 py-1 rounded-lg">
+                <MessageCircle className="h-3 w-3" />
+                <span>{displayChats.length} message{displayChats.length !== 1 ? 's' : ''}</span>
+              </div>
+            )}
             <Button
               onClick={handleShowHistory}
               variant="outline"
@@ -325,10 +401,10 @@ const Chat: React.FC = () => {
                         </div>
                       </div>
                       <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-gray-900 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-3 sm:mb-4">
-                        How can I help you today?
+                        Welcome to AI Farm Assistant! 🌱
                       </h3>
                       <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-10 leading-relaxed max-w-2xl mx-auto px-4">
-                        I'm your intelligent farming assistant. Ask me anything about crops, weather, soil health, irrigation, or agricultural best practices.
+                        I'm your intelligent farming companion. I can help you with crop management, weather insights, irrigation advice, pest control, soil health, and much more. What would you like to know about your farm today?
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto px-4">
                         <div className="group bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-2xl hover:bg-white/90 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-white/50" onClick={() => {setMessage("What's the best time to water my crops?"); setMessageType("IRRIGATION_ADVICE");}}>
@@ -393,6 +469,41 @@ const Chat: React.FC = () => {
                   </div>
                 )}
               </div>
+
+              {/* Error Banner */}
+              {errorMessage && (
+                <div className="bg-red-50 border-l-4 border-red-400 p-4 mx-4 mt-4 rounded-r-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0">
+                        <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <div className="ml-3">
+                        <p className="text-sm text-red-700">{errorMessage}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={handleRetry}
+                        disabled={isRetrying}
+                        className="text-sm bg-red-100 hover:bg-red-200 text-red-800 px-3 py-1 rounded-md transition-colors disabled:opacity-50"
+                      >
+                        {isRetrying ? 'Retrying...' : 'Retry'}
+                      </button>
+                      <button
+                        onClick={() => setErrorMessage('')}
+                        className="text-red-400 hover:text-red-600"
+                      >
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Message Input */}
               <div className="border-t border-white/20 bg-white/40 backdrop-blur-sm p-4 sm:p-6 flex-shrink-0 relative z-10">

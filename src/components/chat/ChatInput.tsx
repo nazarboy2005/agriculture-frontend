@@ -45,6 +45,13 @@ const ChatInput: React.FC<ChatInputProps> = ({
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (message.trim() && !isLoading) {
+      onSubmit(e);
+    }
+  };
+
   const adjustTextareaHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -58,7 +65,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
   return (
     <div className={`bg-transparent ${className}`}>
-      <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
         {/* Message Type Selector - Modern */}
         <div className="flex justify-center">
           <select
@@ -93,7 +100,12 @@ const ChatInput: React.FC<ChatInputProps> = ({
               <button
                 type="submit"
                 disabled={!message.trim() || isLoading}
-                className="absolute right-2 sm:right-3 bottom-2 sm:bottom-3 p-2 sm:p-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl hover:from-emerald-600 hover:to-teal-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100"
+                className={`absolute right-2 sm:right-3 bottom-2 sm:bottom-3 p-2 sm:p-3 text-white rounded-xl transition-all duration-300 shadow-lg ${
+                  !message.trim() || isLoading
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 hover:shadow-xl hover:scale-105'
+                }`}
+                title={!message.trim() ? 'Type a message to send' : isLoading ? 'Sending...' : 'Send message'}
               >
                 {isLoading ? (
                   <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
