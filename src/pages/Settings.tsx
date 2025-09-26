@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -16,11 +16,13 @@ import {
   EyeOff
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { settingsApi } from '../services/api';
 
 const Settings: React.FC = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [settings, setSettings] = useState({
     profile: {
       name: user?.name || '',
@@ -55,8 +57,112 @@ const Settings: React.FC = () => {
     }
   });
 
-  const handleSave = (section: string) => {
-    toast.success(`${section} settings saved successfully!`);
+  // Load settings from backend on component mount
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      setLoading(true);
+      const response = await settingsApi.getSettings();
+      if (response.data.success) {
+        const backendSettings = response.data.data;
+        setSettings(prevSettings => ({
+          ...prevSettings,
+          profile: {
+            ...prevSettings.profile,
+            phone: backendSettings.phone || '',
+            location: backendSettings.location || '',
+            bio: backendSettings.bio || ''
+          },
+          notifications: {
+            emailAlerts: backendSettings.emailAlerts ?? true,
+            smsAlerts: backendSettings.smsAlerts ?? false,
+            pushNotifications: backendSettings.pushNotifications ?? true,
+            weeklyReports: backendSettings.weeklyReports ?? true,
+            systemUpdates: backendSettings.systemUpdates ?? false
+          },
+          appearance: {
+            theme: backendSettings.theme || 'light',
+            language: backendSettings.language || 'en',
+            timezone: backendSettings.timezone || 'UTC',
+            dateFormat: backendSettings.dateFormat || 'MM/DD/YYYY'
+          },
+          privacy: {
+            profileVisibility: backendSettings.profileVisibility || 'public',
+            dataSharing: backendSettings.dataSharing ?? false,
+            analytics: backendSettings.analytics ?? true,
+            marketing: backendSettings.marketing ?? false
+          },
+          security: {
+            twoFactorAuth: backendSettings.twoFactorAuth ?? false,
+            sessionTimeout: backendSettings.sessionTimeout || 30,
+            loginNotifications: backendSettings.loginNotifications ?? true
+          }
+        }));
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      toast.error('Failed to load settings from server');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async (section: string) => {
+    try {
+      setLoading(true);
+      
+      if (section === 'Profile') {
+        const profileData = {
+          phone: settings.profile.phone,
+          location: settings.profile.location,
+          bio: settings.profile.bio
+        };
+        await settingsApi.saveProfile(profileData);
+      } else if (section === 'Notification') {
+        const notificationData = {
+          emailAlerts: settings.notifications.emailAlerts,
+          smsAlerts: settings.notifications.smsAlerts,
+          pushNotifications: settings.notifications.pushNotifications,
+          weeklyReports: settings.notifications.weeklyReports,
+          systemUpdates: settings.notifications.systemUpdates
+        };
+        await settingsApi.saveNotifications(notificationData);
+      } else {
+        // Save all settings for other sections
+        const allSettings = {
+          phone: settings.profile.phone,
+          location: settings.profile.location,
+          bio: settings.profile.bio,
+          emailAlerts: settings.notifications.emailAlerts,
+          smsAlerts: settings.notifications.smsAlerts,
+          pushNotifications: settings.notifications.pushNotifications,
+          weeklyReports: settings.notifications.weeklyReports,
+          systemUpdates: settings.notifications.systemUpdates,
+          theme: settings.appearance.theme,
+          language: settings.appearance.language,
+          timezone: settings.appearance.timezone,
+          dateFormat: settings.appearance.dateFormat,
+          profileVisibility: settings.privacy.profileVisibility,
+          dataSharing: settings.privacy.dataSharing,
+          analytics: settings.privacy.analytics,
+          marketing: settings.privacy.marketing,
+          twoFactorAuth: settings.security.twoFactorAuth,
+          sessionTimeout: settings.security.sessionTimeout,
+          loginNotifications: settings.security.loginNotifications
+        };
+        await settingsApi.saveSettings(allSettings);
+      }
+      
+      toast.success(`${section} settings saved successfully!`);
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      toast.error(`Failed to save ${section.toLowerCase()} settings`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleExport = () => {
@@ -222,10 +328,11 @@ const Settings: React.FC = () => {
                 </div>
                 <Button
                   onClick={() => handleSave('Profile')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  disabled={loading}
+                  className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  Save Profile
+                  {loading ? 'Saving...' : 'Save Profile'}
                 </Button>
               </CardContent>
             </Card>
@@ -271,10 +378,11 @@ const Settings: React.FC = () => {
                 </div>
                 <Button
                   onClick={() => handleSave('Notification')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  disabled={loading}
+                  className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  Save Notifications
+                  {loading ? 'Saving...' : 'Save Notifications'}
                 </Button>
               </CardContent>
             </Card>
@@ -363,10 +471,11 @@ const Settings: React.FC = () => {
                 </div>
                 <Button
                   onClick={() => handleSave('Appearance')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  disabled={loading}
+                  className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  Save Appearance
+                  {loading ? 'Saving...' : 'Save Appearance'}
                 </Button>
               </CardContent>
             </Card>
@@ -431,10 +540,11 @@ const Settings: React.FC = () => {
                 </div>
                 <Button
                   onClick={() => handleSave('Privacy')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  disabled={loading}
+                  className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  Save Privacy Settings
+                  {loading ? 'Saving...' : 'Save Privacy Settings'}
                 </Button>
               </CardContent>
             </Card>
@@ -547,10 +657,11 @@ const Settings: React.FC = () => {
 
                 <Button
                   onClick={() => handleSave('Security')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  disabled={loading}
+                  className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
                 >
                   <Save className="h-4 w-4 mr-2" />
-                  Save Security Settings
+                  {loading ? 'Saving...' : 'Save Security Settings'}
                 </Button>
               </CardContent>
             </Card>

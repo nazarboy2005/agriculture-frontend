@@ -246,4 +246,28 @@ export const chatApi = {
     api.get('/v1/chat/types'),
 };
 
+// Settings API
+export const settingsApi = {
+  getSettings: (): Promise<AxiosResponse<ApiResponse<any>>> =>
+    api.get('/v1/settings'),
+  
+  saveSettings: (settings: any): Promise<AxiosResponse<ApiResponse<any>>> =>
+    api.put('/v1/settings', settings),
+  
+  deleteSettings: (): Promise<AxiosResponse<ApiResponse<string>>> =>
+    api.delete('/v1/settings'),
+  
+  getProfile: (): Promise<AxiosResponse<ApiResponse<any>>> =>
+    api.get('/v1/settings/profile'),
+  
+  saveProfile: (profile: any): Promise<AxiosResponse<ApiResponse<any>>> =>
+    api.put('/v1/settings/profile', profile),
+  
+  getNotifications: (): Promise<AxiosResponse<ApiResponse<any>>> =>
+    api.get('/v1/settings/notifications'),
+  
+  saveNotifications: (notifications: any): Promise<AxiosResponse<ApiResponse<any>>> =>
+    api.put('/v1/settings/notifications', notifications),
+};
+
 export default api;
