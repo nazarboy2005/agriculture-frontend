@@ -238,8 +238,8 @@ const Chat: React.FC = () => {
 
         <div className="flex-1 flex overflow-hidden">
           {/* Main Chat Interface */}
-          <div className="flex-1 flex flex-col min-h-0">
-            <div className="flex-1 bg-white/60 backdrop-blur-sm flex flex-col shadow-2xl min-h-0 relative">
+          <div className="flex-1 flex flex-col min-h-0 w-full">
+            <div className="flex-1 bg-white/60 backdrop-blur-sm flex flex-col shadow-2xl min-h-0 relative max-w-none">
               
               {/* Messages Area */}
               <div 
@@ -315,7 +315,7 @@ const Chat: React.FC = () => {
                     </div>
                 ) : displayChats.length === 0 ? (
                   <div className="flex items-center justify-center h-full px-4 sm:px-6">
-                    <div className="text-center max-w-3xl w-full">
+                    <div className="text-center max-w-4xl w-full">
                       <div className="relative mb-6 sm:mb-8">
                         <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-3xl flex items-center justify-center mx-auto shadow-2xl">
                           <Bot className="h-8 w-8 sm:h-12 sm:w-12 text-white" />
@@ -330,7 +330,7 @@ const Chat: React.FC = () => {
                       <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-10 leading-relaxed max-w-2xl mx-auto px-4">
                         I'm your intelligent farming assistant. Ask me anything about crops, weather, soil health, irrigation, or agricultural best practices.
                       </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto px-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto px-4">
                         <div className="group bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-2xl hover:bg-white/90 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-white/50" onClick={() => {setMessage("What's the best time to water my crops?"); setMessageType("IRRIGATION_ADVICE");}}>
                           <div className="text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">💧</div>
                           <div className="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">Irrigation Advice</div>
@@ -360,7 +360,7 @@ const Chat: React.FC = () => {
                       <div key={chat.id} className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
                         {/* User Message */}
                         <div className="flex justify-end">
-                          <div className="max-w-xs sm:max-w-2xl mr-2 sm:mr-4">
+                          <div className="max-w-xs sm:max-w-3xl mr-2 sm:mr-4">
                             <MessageBubble
                               message={chat.userMessage || ''}
                               isUser={true}
@@ -372,7 +372,7 @@ const Chat: React.FC = () => {
 
                         {/* AI Response */}
                         <div className="flex justify-start">
-                          <div className="max-w-xs sm:max-w-2xl ml-2 sm:ml-4">
+                          <div className="max-w-xs sm:max-w-3xl ml-2 sm:ml-4">
                             <MessageBubble
                               message={chat.aiResponse || ''}
                               isUser={false}

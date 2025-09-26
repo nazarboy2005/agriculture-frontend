@@ -179,12 +179,7 @@ const Login: React.FC = () => {
                   loading={isLoggingIn}
                   className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02]"
                 >
-                  {isLoggingIn ? (
-                    <>
-                      <Loader className="h-4 w-4 animate-spin mr-2" />
-                      Signing In...
-                    </>
-                  ) : (
+                  {isLoggingIn ? 'Signing In...' : (
                     <>
                       Sign In
                       <ArrowRight className="h-4 w-4 ml-2" />
