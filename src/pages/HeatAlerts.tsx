@@ -64,58 +64,9 @@ const HeatAlerts: React.FC = () => {
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [locationError, setLocationError] = useState('');
 
-  // Use real heat alerts if available, otherwise use demo data
+  // Use real heat alerts if available, otherwise fetch from API
   const isDemoUser = user?.email === 'test@gmail.com';
-  const heatAlerts: HeatAlert[] = realHeatAlerts.length > 0 ? realHeatAlerts : (isDemoUser ? [
-    {
-      id: '1',
-      location: user?.name ? `${user.name}'s Farm - Main Field` : 'My Farm - Main Field',
-      date: '2024-01-15',
-      time: '13:00',
-      temperature: 38,
-      heatIndex: 42,
-      riskLevel: 'HIGH',
-      duration: '4 hours',
-      recommendations: [
-        'Increase shading immediately',
-        'Provide extra water breaks for workers',
-        'Consider early harvest if possible'
-      ],
-      status: 'ACTIVE'
-    },
-    {
-      id: '2',
-      location: user?.name ? `${user.name}'s Farm - Secondary Field` : 'My Farm - Secondary Field',
-      date: '2024-01-15',
-      time: '14:30',
-      temperature: 35,
-      heatIndex: 38,
-      riskLevel: 'MODERATE',
-      duration: '2 hours',
-      recommendations: [
-        'Monitor soil moisture closely',
-        'Adjust irrigation schedule',
-        'Check crop stress indicators'
-      ],
-      status: 'ACTIVE'
-    },
-    {
-      id: '3',
-      location: user?.name ? `${user.name}'s Farm - Greenhouse` : 'My Farm - Greenhouse',
-      date: '2024-01-14',
-      time: '15:00',
-      temperature: 40,
-      heatIndex: 45,
-      riskLevel: 'EXTREME',
-      duration: '6 hours',
-      recommendations: [
-        'Emergency cooling measures required',
-        'Evacuate workers if necessary',
-        'Contact emergency services'
-      ],
-      status: 'EXPIRED'
-    }
-  ] : []);
+  const heatAlerts: HeatAlert[] = realHeatAlerts.length > 0 ? realHeatAlerts : [];
 
   const hourlyHeatData: HourlyHeatData[] = isDemoUser ? [
     { time: '06:00', temperature: 28, humidity: 70, heatIndex: 30, riskLevel: 'LOW' },
@@ -180,7 +131,7 @@ const HeatAlerts: React.FC = () => {
       }
     } catch (error) {
       console.error('Error fetching heat alerts:', error);
-      toast.error('Failed to fetch heat alerts. Using demo data.');
+      toast.error('Failed to fetch heat alerts.');
       setDataLoaded(true);
     }
   };
@@ -799,7 +750,7 @@ const HeatAlerts: React.FC = () => {
                           <div className="flex items-center gap-2 mt-2">
                             <Thermometer className="h-4 w-4 text-red-500" />
                             <span className="font-medium text-red-600">
-                              Current: {(24.5 + Math.random() * 8 - 4).toFixed(1)}°C
+                              Current: {realHeatAlerts.length > 0 ? realHeatAlerts[0].temperature.toFixed(1) : 'N/A'}°C
                             </span>
                           </div>
                         </div>

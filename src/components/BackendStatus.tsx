@@ -124,3 +124,4 @@ const BackendStatus: React.FC<BackendStatusProps> = ({ showDetails = false }) =>
 };
 
 export default BackendStatus;
+

@@ -139,7 +139,7 @@ const SmartIrrigation: React.FC = () => {
     heatRisk: 'LOW'
   };
 
-  // Use real plan data if available, otherwise use demo data
+  // Use real plan data if available, otherwise fetch from API
   const irrigationPlan: IrrigationPlan[] = realPlanData ? 
     realPlanData.dailyPlans?.map((day: any) => ({
       date: day.date,
@@ -149,14 +149,7 @@ const SmartIrrigation: React.FC = () => {
       time: day.time,
       heatRisk: day.heatRisk,
       notes: day.notes
-    })) || [] :
-    (isDemoUser ? [
-      { date: '2024-01-15', etc: 3.8, liters: 3.8, minutes: 95, time: '06:10', heatRisk: 'MODERATE', notes: 'Heat 15%' },
-      { date: '2024-01-16', etc: 3.8, liters: 3.8, minutes: 95, time: '06:10', heatRisk: 'LOW', notes: 'Normal conditions' },
-      { date: '2024-01-17', etc: 3.8, liters: 3.9, minutes: 98, time: '06:30', heatRisk: 'LOW', notes: 'Slight increase' },
-      { date: '2024-01-18', etc: 3.8, liters: 4.8, minutes: 120, time: '06:00', heatRisk: 'HIGH', notes: 'High heat risk' },
-      { date: '2024-01-19', etc: 5.8, liters: 3.8, minutes: 95, time: '06:00', heatRisk: 'HIGH', notes: 'Extreme heat' }
-    ] : []);
+    })) || [] : [];
 
   const getUserLocation = () => {
     if (navigator.geolocation) {

@@ -205,20 +205,20 @@ const Chat: React.FC = () => {
     
     // Add a fallback timeout in case the API call hangs
     const fallbackTimeout = setTimeout(() => {
-      if (isTyping) {
-        console.warn('Chat API call timed out, showing fallback message');
-        setIsTyping(false);
-        toast.error('Request timed out. Please try again.');
-      }
+        if (isTyping) {
+            console.warn('Chat API call timed out, showing fallback message');
+            setIsTyping(false);
+            toast.error('Request timed out. Please try again.');
+        }
     }, 65000); // 65 seconds fallback timeout
     
     sendMessageMutation.mutate({ message, messageType }, {
-      onSettled: () => {
-        clearTimeout(fallbackTimeout);
-        setIsTyping(false);
-      }
+        onSettled: () => {
+            clearTimeout(fallbackTimeout);
+            setIsTyping(false);
+        }
     });
-  };
+};
 
   const handleFeedback = (chatId: number, isHelpful: boolean) => {
     updateFeedbackMutation.mutate({ chatId, isHelpful });
@@ -254,16 +254,15 @@ const Chat: React.FC = () => {
 
   const messageTypeOptions = [
     { value: 'GENERAL', label: 'General', icon: '💬' },
-    { value: 'IRRIGATION_ADVICE', label: 'Irrigation', icon: '💧' },
-    { value: 'CROP_MANAGEMENT', label: 'Crop Management', icon: '🌱' },
-    { value: 'WEATHER_QUERY', label: 'Weather', icon: '🌤️' },
-    { value: 'PEST_DISEASE', label: 'Pest & Disease', icon: '🐛' },
-    { value: 'SOIL_HEALTH', label: 'Soil Health', icon: '🌍' },
-    { value: 'FERTILIZER_ADVICE', label: 'Fertilizer', icon: '🌿' },
-    { value: 'HARVEST_PLANNING', label: 'Harvest', icon: '🌾' },
-    { value: 'MARKET_INFO', label: 'Market Info', icon: '📈' },
-    { value: 'TECHNICAL_SUPPORT', label: 'Technical', icon: '🔧' },
-  ];
+    { value: 'WEATHER', label: 'Weather', icon: '🌤️' },
+    { value: 'CROP_HEALTH', label: 'Crop Health', icon: '🌱' },
+    { value: 'IRRIGATION', label: 'Irrigation', icon: '💧' },
+    { value: 'PEST_CONTROL', label: 'Pest Control', icon: '🐛' },
+    { value: 'FERTILIZER', label: 'Fertilizer', icon: '🧪' },
+    { value: 'MARKET_PRICES', label: 'Market Prices', icon: '💰' },
+    { value: 'FARM_EQUIPMENT', label: 'Farm Equipment', icon: '🚜' },
+    { value: 'SOIL_HEALTH', label: 'Soil Health', icon: '🌍' }
+];
 
   return (
     <div className="space-y-6">
