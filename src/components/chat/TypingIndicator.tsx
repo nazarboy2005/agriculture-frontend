@@ -13,7 +13,7 @@ const TypingIndicator: React.FC<TypingIndicatorProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className="flex justify-start mb-6 animate-in slide-in-from-left duration-300">
+    <div className="flex justify-start mb-6">
       <div className="max-w-3xl">
         <div className="bg-white/90 backdrop-blur-sm border border-white/50 p-5 rounded-3xl rounded-bl-lg shadow-xl">
           <div className="flex items-center space-x-4">

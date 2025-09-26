@@ -1,7 +1,6 @@
 import React from 'react';
 import { Bot, Copy, ThumbsUp, ThumbsDown, Check, CheckCheck } from 'lucide-react';
 import { formatDateTime } from '../../utils/format';
-import toast from 'react-hot-toast';
 
 interface MessageBubbleProps {
   message: string;
@@ -35,7 +34,6 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       onCopy(message);
     } else {
       navigator.clipboard.writeText(message);
-      toast.success('Message copied to clipboard');
     }
   };
 
@@ -53,7 +51,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
 
   if (isUser) {
     return (
-      <div className="flex justify-end mb-6 animate-in slide-in-from-right duration-300">
+      <div className="flex justify-end mb-6">
         <div className="max-w-3xl">
           <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-5 rounded-3xl rounded-br-lg shadow-xl border border-blue-500/20">
             <p className="text-sm leading-relaxed whitespace-pre-wrap font-medium">{message}</p>
@@ -75,7 +73,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   }
 
   return (
-    <div className="flex justify-start mb-6 animate-in slide-in-from-left duration-300">
+    <div className="flex justify-start mb-6">
       <div className="max-w-3xl">
         <div className="bg-white/90 backdrop-blur-sm border border-white/50 p-5 rounded-3xl rounded-bl-lg shadow-xl hover:shadow-2xl transition-all duration-300">
           <div className="flex items-start space-x-4">

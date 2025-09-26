@@ -21,7 +21,6 @@ import { chatApi } from '../services/api';
 import { formatDateTime } from '../utils/format';
 import { checkAuthStatus } from '../utils/authTest';
 import { useAuth } from '../contexts/AuthContext';
-import toast from 'react-hot-toast';
 
 const Chat: React.FC = () => {
   const [message, setMessage] = useState('');
@@ -31,6 +30,7 @@ const Chat: React.FC = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [currentChatId, setCurrentChatId] = useState<number | null>(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [localMessages, setLocalMessages] = useState<any[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
@@ -49,12 +49,11 @@ const Chat: React.FC = () => {
     () => chatApi.getChatHistory(farmerId),
     { 
       enabled: !!farmerId,
-      retry: 3,
-      retryDelay: 1000,
-      onError: (error: any) => {
-        console.error('Failed to load chat history:', error);
-        if (error.response?.status !== 401) {
-          toast.error('Failed to load chat history. Please try again.');
+      retry: false,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        if (data?.data?.data) {
+          setLocalMessages(data.data.data);
         }
       }
     }
@@ -64,105 +63,15 @@ const Chat: React.FC = () => {
     ({ message, messageType }: { message: string; messageType: string }) =>
       chatApi.sendMessage(farmerId, message, messageType),
     {
-      onMutate: async ({ message, messageType }) => {
-        // Cancel any outgoing refetches
-        await queryClient.cancelQueries(['chat-history', farmerId]);
-        
-        // Optimistically add the message to the chat
-        const optimisticChat = {
-          id: Date.now(), // Temporary ID
-          farmerId: farmerId,
-          userMessage: message,
-          aiResponse: 'Thinking...',
-          messageType: messageType,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          isHelpful: null,
-          userFeedback: null
-        };
-        
-        // Update the cache optimistically
-        queryClient.setQueryData(['chat-history', farmerId], (old: any) => {
-          if (!old || !old.data || !Array.isArray(old.data)) {
-            return { data: { data: [optimisticChat] } };
-          }
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              data: [optimisticChat, ...old.data.data]
-            }
-          };
-        });
-        
-        return { optimisticChat };
-      },
-      onSuccess: (response, variables, context) => {
-        console.log('Chat API Success:', response);
-        console.log('Response data:', response?.data);
-        
-        // Extract the actual chat data from the response
+      onSuccess: (response) => {
         const chatData = response?.data?.data;
-        
-        // Replace the optimistic update with the real response
-        queryClient.setQueryData(['chat-history', farmerId], (old: any) => {
-          if (!old || !Array.isArray(old)) {
-            return chatData ? [chatData] : [];
-          }
-          return old.map((chat: any) => 
-            chat.id === context?.optimisticChat.id ? (chatData || chat) : chat
-          );
-        });
-        setMessage('');
-        setIsTyping(false);
-        toast.success('Message sent successfully');
-      },
-      onError: (error: any, variables, context) => {
-        console.error('Chat API Error:', error);
-        console.error('Error details:', {
-          message: error.message,
-          response: error.response?.data,
-          status: error.response?.status,
-          config: error.config
-        });
-        
-        // Update the optimistic message with error information
-        queryClient.setQueryData(['chat-history', farmerId], (old: any) => {
-          if (!old || !old.data || !Array.isArray(old.data.data)) {
-            return { data: { data: [] } };
-          }
-          return {
-            ...old,
-            data: {
-              ...old.data,
-              data: old.data.data.map((chat: any) => {
-                if (chat.id === context?.optimisticChat.id) {
-                  return {
-                    ...chat,
-                    aiResponse: 'Sorry, I encountered an error. Please try again.',
-                    messageType: 'ERROR'
-                  };
-                }
-                return chat;
-              })
-            }
-          };
-        });
-        
-        setIsTyping(false);
-        
-        // Handle specific error cases
-        if (error.response?.status === 401) {
-          toast.error('Please log in to use the chat feature');
-        } else if (error.response?.status === 403) {
-          toast.error('Access denied. Please check your permissions');
-        } else if (error.message?.includes('Network Error') || error.message?.includes('CORS')) {
-          toast.error('Network error. Please check your connection and try again');
-        } else if (error.code === 'ECONNREFUSED') {
-          toast.error('Cannot connect to server. Please check if the backend is running.');
-        } else {
-          toast.error(error.response?.data?.message || `Failed to send message: ${error.message}`);
+        if (chatData) {
+          setLocalMessages(prev => [chatData, ...prev]);
         }
+        setIsTyping(false);
+      },
+      onError: () => {
+        setIsTyping(false);
       },
     }
   );
@@ -173,15 +82,15 @@ const Chat: React.FC = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['chat-history', farmerId]);
-        toast.success('Feedback submitted');
       },
-      onError: (error: any) => {
-        toast.error(error.response?.data?.message || 'Failed to submit feedback');
+      onError: () => {
+        // Silent error handling
       },
     }
   );
 
-  const chats = chatHistory?.data?.data || [];
+  // Use local messages for immediate display
+  const chats = localMessages;
   
   // Sort chats by creation date (oldest first for better conversation flow)
   const sortedChats = [...chats].sort((a, b) => 
@@ -206,23 +115,24 @@ const Chat: React.FC = () => {
     e.preventDefault();
     if (!message.trim()) return;
 
+    // Add message immediately to local state
+    const newMessage = {
+      id: Date.now(),
+      farmerId: farmerId,
+      userMessage: message,
+      aiResponse: 'Thinking...',
+      messageType: messageType,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      isHelpful: null,
+      userFeedback: null
+    };
+
+    setLocalMessages(prev => [newMessage, ...prev]);
+    setMessage('');
     setIsTyping(true);
     
-    // Add a fallback timeout in case the API call hangs
-    const fallbackTimeout = setTimeout(() => {
-        if (isTyping) {
-            console.warn('Chat API call timed out, showing fallback message');
-            setIsTyping(false);
-            toast.error('Request timed out. Please try again.');
-        }
-    }, 65000); // 65 seconds fallback timeout
-    
-    sendMessageMutation.mutate({ message, messageType }, {
-        onSettled: () => {
-            clearTimeout(fallbackTimeout);
-            setIsTyping(false);
-        }
-    });
+    sendMessageMutation.mutate({ message, messageType });
   };
 
   const handleFeedback = (chatId: number, isHelpful: boolean) => {
@@ -236,12 +146,10 @@ const Chat: React.FC = () => {
   const handleSelectChat = (chat: any) => {
     setCurrentChatId(chat.id);
     setShowHistory(false);
-    toast.success('Selected conversation');
   };
 
   const handleCopyMessage = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast.success('Message copied to clipboard');
   };
 
 
@@ -276,10 +184,10 @@ const Chat: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="max-w-6xl mx-auto h-screen flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 fixed inset-0 overflow-hidden">
+      <div className="max-w-6xl mx-auto h-full flex flex-col">
         {/* Modern Glass Header */}
-        <div className="bg-white/80 backdrop-blur-xl border-b border-white/20 px-6 py-4 flex items-center justify-between shadow-lg">
+        <div className="bg-white/80 backdrop-blur-xl border-b border-white/20 px-6 py-4 flex items-center justify-between shadow-lg flex-shrink-0">
           <div className="flex items-center space-x-4">
             <div className="relative">
               <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -319,13 +227,13 @@ const Chat: React.FC = () => {
 
         <div className="flex-1 flex overflow-hidden">
           {/* Main Chat Interface */}
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 bg-white/60 backdrop-blur-sm flex flex-col rounded-t-3xl shadow-2xl">
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="flex-1 bg-white/60 backdrop-blur-sm flex flex-col rounded-t-3xl shadow-2xl min-h-0">
               
               {/* Messages Area */}
               <div 
                 ref={messagesContainerRef}
-                className="flex-1 overflow-y-auto bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-sm"
+                className="flex-1 overflow-y-auto bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-sm min-h-0"
               >
                 {historyLoading ? (
                   <div className="flex items-center justify-center h-32">
@@ -476,7 +384,7 @@ const Chat: React.FC = () => {
               </div>
 
               {/* Message Input */}
-              <div className="border-t border-white/20 bg-white/40 backdrop-blur-sm p-6">
+              <div className="border-t border-white/20 bg-white/40 backdrop-blur-sm p-6 flex-shrink-0">
                 <ChatInput
                   message={message}
                   setMessage={setMessage}
@@ -492,7 +400,7 @@ const Chat: React.FC = () => {
 
           {/* Sidebar - Only show when history is open */}
           {showHistory && (
-            <div className="w-80 bg-white/60 backdrop-blur-xl border-l border-white/20 flex flex-col shadow-2xl">
+            <div className="w-80 bg-white/60 backdrop-blur-xl border-l border-white/20 flex flex-col shadow-2xl flex-shrink-0">
               {/* Search & Filter */}
               <div className="p-4 border-b border-gray-200">
                 <h3 className="text-sm font-semibold text-gray-900 mb-3">Search & Filter</h3>
