@@ -22,7 +22,8 @@ import {
   TrendingUp,
   Award,
   Target,
-  Heart
+  Heart,
+  Brain
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
