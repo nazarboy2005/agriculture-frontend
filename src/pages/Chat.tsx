@@ -2,13 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { 
   Bot, 
-  ThumbsUp, 
   ThumbsDown, 
   Search, 
   Filter,
   Loader,
   MessageCircle,
-  Check,
   CheckCheck,
   Settings
 } from 'lucide-react';

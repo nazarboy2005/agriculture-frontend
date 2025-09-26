@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Bot, Copy, ThumbsUp, ThumbsDown, Check, CheckCheck } from 'lucide-react';
 import { formatDateTime } from '../../utils/format';
 import toast from 'react-hot-toast';
