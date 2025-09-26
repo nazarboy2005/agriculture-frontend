@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, AlertTriangle, RefreshCw } from 'lucide-react';
-import { api } from '../services/api';
+import api from '../services/api';
 
 interface BackendStatusProps {
   showDetails?: boolean;
