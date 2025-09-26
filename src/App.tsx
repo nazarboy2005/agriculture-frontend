@@ -52,6 +52,13 @@ function App() {
         <Route path="/auth/confirm-email" element={<ConfirmEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Layout>
+              <Dashboard />
+            </Layout>
+          </ProtectedRoute>
+        } />
         <Route path="/farmers" element={
           <ProtectedRoute requireAdmin>
             <Layout>
