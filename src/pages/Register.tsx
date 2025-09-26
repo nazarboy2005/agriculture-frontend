@@ -61,13 +61,14 @@ const Register: React.FC = () => {
     setIsRegistering(true);
     
     try {
-      await authApi.register({
+      const response = await authApi.register({
         name: formData.name,
         email: formData.email,
         password: formData.password
       });
       
-      toast.success('Registration successful! Please check your email to confirm your account.');
+      // Redirect to email confirmation page with email parameter
+      window.location.href = `/auth/confirm-email?email=${encodeURIComponent(formData.email)}&pending=true`;
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Registration failed. Please try again.');
     } finally {

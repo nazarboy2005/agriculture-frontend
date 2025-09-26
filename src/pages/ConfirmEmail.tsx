@@ -11,9 +11,20 @@ const ConfirmEmail: React.FC = () => {
   const [isConfirming, setIsConfirming] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     const token = searchParams.get('token');
+    const email = searchParams.get('email');
+    const pending = searchParams.get('pending');
+    
+    if (pending === 'true' && email) {
+      // User just registered, show pending confirmation message
+      setIsPending(true);
+      setIsConfirming(false);
+      return;
+    }
+    
     if (!token) {
       setError('No confirmation token provided');
       setIsConfirming(false);
@@ -75,6 +86,44 @@ const ConfirmEmail: React.FC = () => {
         {/* Confirmation Card */}
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-8 text-center">
+            {isPending && (
+              <div className="space-y-4">
+                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto">
+                  <Mail className="h-8 w-8 text-yellow-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900">Check Your Email!</h3>
+                <p className="text-gray-600">
+                  We've sent a confirmation email to <strong>{searchParams.get('email')}</strong>. 
+                  Please check your inbox and click the confirmation link to activate your account.
+                </p>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+                  <p className="text-sm text-blue-800">
+                    <strong>💡 Tip:</strong> Check your spam folder if you don't see the email in your inbox.
+                  </p>
+                </div>
+                <div className="pt-4 space-y-3">
+                  <Button 
+                    onClick={() => {
+                      const email = searchParams.get('email');
+                      if (email) {
+                        handleResendConfirmation();
+                      }
+                    }}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Resend Confirmation Email
+                  </Button>
+                  <Link to="/login">
+                    <Button variant="ghost" className="w-full">
+                      Back to Login
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            )}
+
             {isConfirming && (
               <div className="space-y-4">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
