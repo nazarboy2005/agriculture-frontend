@@ -276,36 +276,41 @@ const Chat: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto h-screen flex flex-col">
-        {/* ChatGPT-style Header */}
-        <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-              <Bot className="h-5 w-5 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="max-w-6xl mx-auto h-screen flex flex-col">
+        {/* Modern Glass Header */}
+        <div className="bg-white/80 backdrop-blur-xl border-b border-white/20 px-6 py-4 flex items-center justify-between shadow-lg">
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Bot className="h-6 w-6 text-white" />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
             </div>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">AI Farm Assistant</h1>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                AI Farm Assistant
+              </h1>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-gray-500">Online</span>
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-gray-600 font-medium">Online & Ready</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <Button
               onClick={handleShowHistory}
               variant="outline"
               size="sm"
-              className="border-gray-300 hover:bg-gray-50 rounded-lg text-sm"
+              className="border-white/30 hover:bg-white/50 rounded-xl text-sm font-medium shadow-sm backdrop-blur-sm bg-white/20"
             >
-              <MessageCircle className="h-4 w-4 mr-1" />
-              {showHistory ? 'Hide' : 'History'}
+              <MessageCircle className="h-4 w-4 mr-2" />
+              {showHistory ? 'Hide History' : 'View History'}
             </Button>
             <Button
               size="sm"
               variant="outline"
-              className="border-gray-300 hover:bg-gray-50 rounded-lg"
+              className="border-white/30 hover:bg-white/50 rounded-xl shadow-sm backdrop-blur-sm bg-white/20"
             >
               <Settings className="h-4 w-4" />
             </Button>
@@ -315,12 +320,12 @@ const Chat: React.FC = () => {
         <div className="flex-1 flex overflow-hidden">
           {/* Main Chat Interface */}
           <div className="flex-1 flex flex-col">
-            <div className="flex-1 bg-white flex flex-col">
+            <div className="flex-1 bg-white/60 backdrop-blur-sm flex flex-col rounded-t-3xl shadow-2xl">
               
               {/* Messages Area */}
               <div 
                 ref={messagesContainerRef}
-                className="flex-1 overflow-y-auto bg-white"
+                className="flex-1 overflow-y-auto bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-sm"
               >
                 {historyLoading ? (
                   <div className="flex items-center justify-center h-32">
@@ -390,31 +395,42 @@ const Chat: React.FC = () => {
                       )}
                     </div>
                 ) : displayChats.length === 0 ? (
-                  <div className="flex items-center justify-center h-full px-4">
-                    <div className="text-center max-w-2xl">
-                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Bot className="h-8 w-8 text-green-600" />
+                  <div className="flex items-center justify-center h-full px-6">
+                    <div className="text-center max-w-3xl">
+                      <div className="relative mb-8">
+                        <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-3xl flex items-center justify-center mx-auto shadow-2xl">
+                          <Bot className="h-12 w-12 text-white" />
+                        </div>
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center animate-bounce">
+                          <span className="text-sm">✨</span>
+                        </div>
                       </div>
-                      <h3 className="text-2xl font-semibold text-gray-900 mb-3">How can I help you today?</h3>
-                      <p className="text-gray-600 mb-8 leading-relaxed">
-                        I'm your AI farming assistant. Ask me anything about crops, weather, soil health, irrigation, or agricultural best practices.
+                      <h3 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">
+                        How can I help you today?
+                      </h3>
+                      <p className="text-lg text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto">
+                        I'm your intelligent farming assistant. Ask me anything about crops, weather, soil health, irrigation, or agricultural best practices.
                       </p>
-                      <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto">
-                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("What's the best time to water my crops?"); setMessageType("IRRIGATION_ADVICE");}}>
-                          <div className="text-2xl mb-2">💧</div>
-                          <div className="text-sm font-medium text-gray-800">Irrigation Advice</div>
+                      <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
+                        <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl hover:bg-white/90 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-white/50" onClick={() => {setMessage("What's the best time to water my crops?"); setMessageType("IRRIGATION_ADVICE");}}>
+                          <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">💧</div>
+                          <div className="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">Irrigation Advice</div>
+                          <div className="text-xs text-gray-500 mt-1">Smart watering tips</div>
                         </div>
-                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("How's the weather affecting my crops?"); setMessageType("WEATHER_QUERY");}}>
-                          <div className="text-2xl mb-2">🌤️</div>
-                          <div className="text-sm font-medium text-gray-800">Weather Query</div>
+                        <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl hover:bg-white/90 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-white/50" onClick={() => {setMessage("How's the weather affecting my crops?"); setMessageType("WEATHER_QUERY");}}>
+                          <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">🌤️</div>
+                          <div className="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">Weather Query</div>
+                          <div className="text-xs text-gray-500 mt-1">Weather insights</div>
                         </div>
-                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("My crops look unhealthy, what should I do?"); setMessageType("CROP_MANAGEMENT");}}>
-                          <div className="text-2xl mb-2">🌱</div>
-                          <div className="text-sm font-medium text-gray-800">Crop Health</div>
+                        <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl hover:bg-white/90 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-white/50" onClick={() => {setMessage("My crops look unhealthy, what should I do?"); setMessageType("CROP_MANAGEMENT");}}>
+                          <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">🌱</div>
+                          <div className="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">Crop Health</div>
+                          <div className="text-xs text-gray-500 mt-1">Plant diagnostics</div>
                         </div>
-                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("What fertilizer should I use?"); setMessageType("FERTILIZER_ADVICE");}}>
-                          <div className="text-2xl mb-2">🧪</div>
-                          <div className="text-sm font-medium text-gray-800">Fertilizer</div>
+                        <div className="group bg-white/80 backdrop-blur-sm p-6 rounded-2xl hover:bg-white/90 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-white/50" onClick={() => {setMessage("What fertilizer should I use?"); setMessageType("FERTILIZER_ADVICE");}}>
+                          <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">🧪</div>
+                          <div className="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">Fertilizer</div>
+                          <div className="text-xs text-gray-500 mt-1">Nutrient guidance</div>
                         </div>
                       </div>
                     </div>
@@ -460,7 +476,7 @@ const Chat: React.FC = () => {
               </div>
 
               {/* Message Input */}
-              <div className="border-t border-gray-200 bg-white p-4">
+              <div className="border-t border-white/20 bg-white/40 backdrop-blur-sm p-6">
                 <ChatInput
                   message={message}
                   setMessage={setMessage}
@@ -476,7 +492,7 @@ const Chat: React.FC = () => {
 
           {/* Sidebar - Only show when history is open */}
           {showHistory && (
-            <div className="w-80 bg-gray-50 border-l border-gray-200 flex flex-col">
+            <div className="w-80 bg-white/60 backdrop-blur-xl border-l border-white/20 flex flex-col shadow-2xl">
               {/* Search & Filter */}
               <div className="p-4 border-b border-gray-200">
                 <h3 className="text-sm font-semibold text-gray-900 mb-3">Search & Filter</h3>

@@ -26,7 +26,7 @@ const AuthCallback: React.FC = () => {
         if (token && success === 'true') {
           login(token);
           toast.success('Login successful!');
-          navigate('/');
+          navigate('/dashboard');
         } else if (success === 'false') {
           toast.error('Login failed. Please try again.');
           navigate('/login');

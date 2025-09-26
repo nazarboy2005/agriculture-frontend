@@ -57,14 +57,14 @@ const ChatInput: React.FC<ChatInputProps> = ({
   }, [message]);
 
   return (
-    <div className={`bg-white border-t border-gray-200 p-4 ${className}`}>
-      <form onSubmit={onSubmit} className="space-y-3">
-        {/* Message Type Selector - Compact */}
+    <div className={`bg-transparent ${className}`}>
+      <form onSubmit={onSubmit} className="space-y-4">
+        {/* Message Type Selector - Modern */}
         <div className="flex justify-center">
           <select
             value={messageType}
             onChange={(e) => setMessageType(e.target.value)}
-            className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
+            className="px-4 py-2 border border-white/30 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300"
           >
             {messageTypeOptions.map(option => (
               <option key={option.value} value={option.value}>
@@ -74,32 +74,34 @@ const ChatInput: React.FC<ChatInputProps> = ({
           </select>
         </div>
         
-        {/* Input Area - ChatGPT Style */}
-        <div className="flex items-end space-x-3">
+        {/* Input Area - Modern Glass Design */}
+        <div className="flex items-end space-x-4">
           <div className="flex-1 relative">
-            <textarea
-              ref={textareaRef}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder={placeholder}
-              disabled={isLoading}
-              className="w-full p-3 border border-gray-300 rounded-2xl text-base focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none min-h-[44px] max-h-[120px] pr-12"
-              rows={1}
-            />
-            
-            {/* Send Button - Inside Input */}
-            <button
-              type="submit"
-              disabled={!message.trim() || isLoading}
-              className="absolute right-2 bottom-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-            >
-              {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-            </button>
+            <div className="relative bg-white/90 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 focus-within:ring-2 focus-within:ring-emerald-500/50 focus-within:border-emerald-500/50">
+              <textarea
+                ref={textareaRef}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder={placeholder}
+                disabled={isLoading}
+                className="w-full p-4 pr-16 bg-transparent text-base resize-none min-h-[56px] max-h-[120px] focus:outline-none placeholder-gray-500 font-medium"
+                rows={1}
+              />
+              
+              {/* Send Button - Modern Design */}
+              <button
+                type="submit"
+                disabled={!message.trim() || isLoading}
+                className="absolute right-3 bottom-3 p-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl hover:from-emerald-600 hover:to-teal-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:hover:scale-100"
+              >
+                {isLoading ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <Send className="h-5 w-5" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </form>

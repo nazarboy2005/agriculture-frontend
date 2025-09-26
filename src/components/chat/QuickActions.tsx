@@ -80,45 +80,49 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onQuestionSelect, className
     : quickQuestions.filter(q => q.category === selectedCategory);
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      <div className="flex items-center space-x-2 mb-4">
-        <Zap className="h-5 w-5 text-yellow-600" />
-        <h3 className="text-lg font-semibold text-gray-900">Quick Questions</h3>
+    <div className={`space-y-6 ${className}`}>
+      <div className="flex items-center space-x-3 mb-6">
+        <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+          <Zap className="h-4 w-4 text-white" />
+        </div>
+        <h3 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Quick Questions</h3>
       </div>
       
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      {/* Category Filter - Modern */}
+      <div className="flex flex-wrap gap-3 mb-6">
         {categories.map((category) => (
           <button
             key={category.name}
             onClick={() => setSelectedCategory(category.name)}
-            className={`flex items-center space-x-1 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+            className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl ${
               selectedCategory === category.name
-                ? 'bg-blue-100 text-blue-700 shadow-sm'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-xl'
+                : 'bg-white/80 backdrop-blur-sm text-gray-600 hover:bg-white/90 border border-white/50'
             }`}
           >
-            <category.icon className={`h-4 w-4 ${category.color}`} />
+            <category.icon className={`h-4 w-4 ${selectedCategory === category.name ? 'text-white' : category.color}`} />
             <span>{category.name}</span>
           </button>
         ))}
       </div>
 
-      {/* Questions Grid */}
-      <div className="grid gap-2">
+      {/* Questions Grid - Modern Cards */}
+      <div className="grid gap-3">
         {filteredQuestions.map((item, index) => (
           <button
             key={index}
             onClick={() => onQuestionSelect(item.question, item.type)}
-            className="w-full text-left p-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-all duration-200 border border-transparent hover:border-blue-200 hover:shadow-sm group"
+            className="w-full text-left p-4 text-sm text-gray-700 hover:bg-white/90 hover:text-emerald-700 rounded-2xl transition-all duration-300 border border-white/50 hover:border-emerald-200 hover:shadow-xl group bg-white/60 backdrop-blur-sm"
           >
-            <div className="flex items-center space-x-3">
-              <span className="text-lg group-hover:scale-110 transition-transform duration-200">
-                {item.icon}
-              </span>
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center group-hover:from-emerald-100 group-hover:to-teal-200 transition-all duration-300">
+                <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
+                  {item.icon}
+                </span>
+              </div>
               <div className="flex-1">
-                <span className="font-medium">{item.question}</span>
-                <div className="text-xs text-gray-500 mt-1">{item.category}</div>
+                <span className="font-semibold text-gray-800 group-hover:text-emerald-700 transition-colors">{item.question}</span>
+                <div className="text-xs text-gray-500 mt-1 font-medium">{item.category}</div>
               </div>
             </div>
           </button>
@@ -126,9 +130,11 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onQuestionSelect, className
       </div>
 
       {filteredQuestions.length === 0 && (
-        <div className="text-center py-6">
-          <MessageCircle className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-          <p className="text-sm text-gray-500">No questions in this category</p>
+        <div className="text-center py-8">
+          <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <MessageCircle className="h-8 w-8 text-gray-400" />
+          </div>
+          <p className="text-sm text-gray-500 font-medium">No questions in this category</p>
         </div>
       )}
     </div>
