@@ -360,23 +360,6 @@ const Chat: React.FC = () => {
                         <span className="text-sm text-gray-600">Loading chat history...</span>
                       </div>
                     </div>
-                  ) : historyError ? (
-                    <div className="flex items-center justify-center h-32">
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <span className="text-2xl">⚠️</span>
-                        </div>
-                        <p className="text-sm text-gray-600 mb-3">Failed to load chat history</p>
-                        <Button 
-                          onClick={() => window.location.reload()}
-                          size="sm"
-                          className="bg-blue-600 hover:bg-blue-700"
-                        >
-                          <RefreshCw className="h-4 w-4 mr-2" />
-                          Try again
-                        </Button>
-                      </div>
-                    </div>
                   ) : showHistory ? (
                     <div className="space-y-4">
                       <div className="flex items-center justify-between mb-4">

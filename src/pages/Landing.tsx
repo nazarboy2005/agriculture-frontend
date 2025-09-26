@@ -11,7 +11,18 @@ import {
   Leaf,
   MessageCircle,
   MapPin,
-  Bell
+  Bell,
+  Shield,
+  Zap,
+  Globe,
+  Users,
+  CheckCircle,
+  Play,
+  Sparkles,
+  TrendingUp,
+  Award,
+  Target,
+  Heart
 } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -22,107 +33,145 @@ const Landing: React.FC = () => {
   const features = [
     {
       icon: Search,
-      title: 'Plant Disease Detection',
-      description: 'AI-powered disease identification from plant leaf images with instant treatment recommendations.',
+      title: 'AI Disease Detection',
+      description: 'Instantly identify plant diseases from photos with 95% accuracy and get treatment recommendations.',
       color: 'text-green-600',
-      bgColor: 'bg-green-100'
+      bgColor: 'bg-green-100',
+      highlight: '95% Accuracy'
     },
     {
       icon: Droplets,
       title: 'Smart Irrigation',
-      description: 'AI-powered water management system that optimizes irrigation schedules and saves water.',
+      description: 'Save up to 40% water with AI-powered irrigation scheduling based on weather and soil data.',
       color: 'text-blue-600',
-      bgColor: 'bg-blue-100'
+      bgColor: 'bg-blue-100',
+      highlight: '40% Water Saved'
     },
     {
       icon: Thermometer,
-      title: 'Heat Alerts',
-      description: 'Real-time temperature monitoring with instant SMS notifications to protect your crops.',
+      title: 'Heat Protection',
+      description: 'Real-time temperature monitoring with instant SMS alerts to protect your crops from heat stress.',
       color: 'text-red-600',
-      bgColor: 'bg-red-100'
+      bgColor: 'bg-red-100',
+      highlight: 'Real-time Alerts'
+    },
+    {
+      icon: MessageCircle,
+      title: 'AI Consultant',
+      description: 'Get personalized farming advice 24/7 from our advanced AI agricultural expert.',
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-100',
+      highlight: '24/7 Support'
     },
     {
       icon: MapPin,
       title: 'Zone Management',
-      description: 'Manage multiple farm zones with location-based monitoring and recommendations.',
+      description: 'Manage multiple farm zones with precision monitoring and location-based recommendations.',
       color: 'text-purple-600',
-      bgColor: 'bg-purple-100'
-    },
-    {
-      icon: MessageCircle,
-      title: 'AI Agricultural Consultant',
-      description: 'Get personalized farming advice from our AI-powered agricultural consultant.',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100'
+      bgColor: 'bg-purple-100',
+      highlight: 'Multi-Zone'
     },
     {
       icon: BarChart3,
-      title: 'Analytics Dashboard',
-      description: 'Comprehensive insights into your farm performance and optimization opportunities.',
+      title: 'Smart Analytics',
+      description: 'Comprehensive insights and predictions to optimize your farm performance and maximize yields.',
       color: 'text-indigo-600',
-      bgColor: 'bg-indigo-100'
-    },
-    {
-      icon: Lightbulb,
-      title: 'AI Recommendations',
-      description: 'Get personalized farming advice powered by advanced machine learning algorithms.',
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-100'
-    },
-    {
-      icon: Bell,
-      title: 'Smart Alerts',
-      description: 'Proactive notifications for weather changes, irrigation needs, and crop health issues.',
-      color: 'text-pink-600',
-      bgColor: 'bg-pink-100'
+      bgColor: 'bg-indigo-100',
+      highlight: 'Data-Driven'
     }
   ];
 
+  const benefits = [
+    {
+      icon: TrendingUp,
+      title: 'Increase Yields',
+      description: 'Average 25% increase in crop yields through optimized farming practices'
+    },
+    {
+      icon: Droplets,
+      title: 'Save Water',
+      description: 'Reduce water usage by up to 40% with smart irrigation management'
+    },
+    {
+      icon: Shield,
+      title: 'Prevent Losses',
+      description: 'Early disease detection and weather alerts prevent crop losses'
+    },
+    {
+      icon: Zap,
+      title: 'Save Time',
+      description: 'Automated monitoring and alerts save hours of manual work daily'
+    }
+  ];
 
   const testimonials = [
     {
       name: 'Rajesh Kumar',
       role: 'Rice Farmer, Punjab',
-      content: 'This platform has revolutionized my farming. I\'ve saved 35% on water costs and increased my yield by 20%.',
-      rating: 5
+      content: 'AgriSmart has transformed my farming completely. I\'ve saved 40% on water costs and increased my yield by 30%. The AI recommendations are incredibly accurate.',
+      rating: 5,
+      image: '👨‍🌾'
     },
     {
       name: 'Priya Sharma',
       role: 'Vegetable Farmer, Maharashtra',
-      content: 'The AI recommendations are incredibly accurate. My crops are healthier and more productive than ever.',
-      rating: 5
+      content: 'The disease detection feature saved my entire tomato crop. I caught the blight early and treated it before it spread. This technology is a game-changer.',
+      rating: 5,
+      image: '👩‍🌾'
     },
     {
       name: 'Amit Patel',
       role: 'Cotton Farmer, Gujarat',
-      content: 'The heat alerts saved my entire crop during the heatwave. This technology is a game-changer.',
-      rating: 5
+      content: 'The heat alerts saved my cotton crop during the heatwave. I was able to take preventive measures and didn\'t lose a single plant.',
+      rating: 5,
+      image: '👨‍🌾'
+    }
+  ];
+
+  const steps = [
+    {
+      number: '01',
+      title: 'Sign Up & Connect',
+      description: 'Create your account in 2 minutes and connect your farm data through our intuitive interface.',
+      icon: Users
+    },
+    {
+      number: '02',
+      title: 'AI Analysis',
+      description: 'Our advanced AI analyzes your data and provides personalized recommendations for optimal farming.',
+      icon: Brain
+    },
+    {
+      number: '03',
+      title: 'Optimize & Grow',
+      description: 'Implement our recommendations and watch your yields increase while saving water and resources.',
+      icon: Target
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-yellow-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-indigo-50">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+      <nav className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
-                <Leaf className="h-5 w-5 text-white" />
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+                <Leaf className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">AgriSmart</span>
+              <span className="text-2xl font-bold text-gray-900">AgriSmart</span>
             </div>
             <div className="flex items-center space-x-4">
               <Button 
                 variant="outline" 
                 onClick={() => navigate('/login')}
-                className="hidden sm:inline-flex"
+                className="hidden sm:inline-flex border-gray-300 hover:bg-gray-50"
               >
                 Sign In
               </Button>
               <Button 
                 onClick={() => navigate('/register')}
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-200"
               >
                 Get Started
               </Button>
@@ -132,69 +181,114 @@ const Landing: React.FC = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-100/30 via-blue-100/30 to-indigo-100/30"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+            <div className="inline-flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Sparkles className="h-4 w-4" />
+              <span>AI-Powered Agriculture Platform</span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight">
               Revolutionize Your
-              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent"> Farming</span>
+              <span className="bg-gradient-to-r from-green-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent"> Farming</span>
+              <br />
+              with AI
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Harness the power of AI and IoT to optimize your agricultural practices, 
-              save water, increase yields, and build a sustainable future.
+            <p className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+              Harness the power of artificial intelligence to optimize your agricultural practices, 
+              increase yields by 25%, save 40% water, and build a sustainable farming future.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Button 
                 onClick={() => navigate('/register')}
                 size="lg"
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
+                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-10 py-5 text-xl font-semibold shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
               >
-                Get Started
-                <ArrowRight className="ml-2 h-5 w-5" />
+                Get Started Free
+                <ArrowRight className="ml-3 h-6 w-6" />
               </Button>
+              <Button 
+                variant="outline"
+                size="lg"
+                className="border-2 border-gray-300 hover:border-gray-400 px-10 py-5 text-xl font-semibold"
+              >
+                <Play className="mr-3 h-6 w-6" />
+                Watch Demo
+              </Button>
+            </div>
+            <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-600">
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>No Credit Card Required</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>Setup in 2 Minutes</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span>24/7 AI Support</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Transition Section */}
-      <section className="py-8 bg-gradient-to-r from-green-50 to-blue-50">
+      {/* Benefits Section */}
+      <section className="py-20 bg-white/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="inline-flex items-center space-x-2 text-gray-600">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              Why Choose AgriSmart?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Join thousands of farmers who have already transformed their agricultural practices with our AI-powered platform
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {benefits.map((benefit, index) => (
+              <Card key={index} className="p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white/80 backdrop-blur-sm">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <benefit.icon className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{benefit.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-white/30 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 via-transparent to-blue-50/50"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+      <section className="py-20 bg-gradient-to-br from-green-50/50 via-blue-50/50 to-indigo-50/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
               Everything You Need for Smart Farming
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our comprehensive platform combines cutting-edge technology with practical farming knowledge 
+              Our comprehensive platform combines cutting-edge AI technology with practical farming knowledge 
               to help you achieve optimal results.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
-                <div className={`w-12 h-12 ${feature.bgColor} rounded-lg flex items-center justify-center mb-4`}>
-                  <feature.icon className={`h-6 w-6 ${feature.color}`} />
+              <Card key={index} className="p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white/90 backdrop-blur-sm group">
+                <div className="flex items-start space-x-4">
+                  <div className={`w-14 h-14 ${feature.bgColor} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className={`h-7 w-7 ${feature.color}`} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-xl font-bold text-gray-900">{feature.title}</h3>
+                      <span className="text-xs font-semibold text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                        {feature.highlight}
+                      </span>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">
-                  {feature.description}
-                </p>
               </Card>
             ))}
           </div>
@@ -202,53 +296,38 @@ const Landing: React.FC = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-16 bg-white/50">
+      <section className="py-20 bg-white/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
               How It Works
             </h2>
             <p className="text-xl text-gray-600">
-              Get started in just three simple steps
+              Get started in just three simple steps and transform your farming
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-white">1</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {steps.map((step, index) => (
+              <div key={index} className="text-center relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                  <step.icon className="h-10 w-10 text-white" />
+                </div>
+                <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  {step.number}
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{step.title}</h3>
+                <p className="text-gray-600 leading-relaxed text-lg">{step.description}</p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Sign Up & Connect</h3>
-              <p className="text-gray-600">
-                Create your account and connect your farm data through our easy-to-use interface.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-white">2</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">AI Analysis</h3>
-              <p className="text-gray-600">
-                Our AI analyzes your data and provides personalized recommendations for optimal farming.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-white">3</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Optimize & Grow</h3>
-              <p className="text-gray-600">
-                Implement recommendations and watch your yields increase while saving water and resources.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16">
+      <section className="py-20 bg-gradient-to-br from-green-50/50 via-blue-50/50 to-indigo-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
               What Farmers Are Saying
             </h2>
             <p className="text-xl text-gray-600">
@@ -257,19 +336,22 @@ const Landing: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-6">
+              <Card key={index} className="p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white/90 backdrop-blur-sm">
+                <div className="flex items-center mb-6">
+                  <div className="text-4xl mr-4">{testimonial.image}</div>
+                  <div>
+                    <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
+                    <div className="text-sm text-gray-500">{testimonial.role}</div>
+                  </div>
+                </div>
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-600 mb-4 italic">
+                <p className="text-gray-600 leading-relaxed text-lg italic">
                   "{testimonial.content}"
                 </p>
-                <div>
-                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-500">{testimonial.role}</div>
-                </div>
               </Card>
             ))}
           </div>
@@ -277,77 +359,95 @@ const Landing: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-green-600 to-blue-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
+      <section className="py-20 bg-gradient-to-r from-green-600 via-blue-600 to-indigo-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+          <div className="inline-flex items-center space-x-2 bg-white/20 text-white px-6 py-3 rounded-full text-sm font-medium mb-8">
+            <Award className="h-5 w-5" />
+            <span>Trusted by 10,000+ Farmers</span>
+          </div>
+          <h2 className="text-4xl lg:text-6xl font-bold text-white mb-8">
             Ready to Transform Your Farming?
           </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-green-100 mb-12 max-w-4xl mx-auto leading-relaxed">
             Join thousands of farmers who are already using AI to optimize their agricultural practices 
-            and build a sustainable future.
+            and build a sustainable future. Start your free trial today.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button 
               onClick={() => navigate('/register')}
               size="lg"
-              className="bg-white text-green-600 hover:bg-gray-100 px-8 py-4 text-lg"
+              className="bg-white text-green-600 hover:bg-gray-100 px-12 py-6 text-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
             >
-              Get Started
-              <ArrowRight className="ml-2 h-5 w-5" />
+              Get Started Free
+              <ArrowRight className="ml-3 h-6 w-6" />
             </Button>
+            <div className="flex items-center space-x-2 text-green-100">
+              <Heart className="h-5 w-5" />
+              <span>No credit card required</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
-                  <Leaf className="h-5 w-5 text-white" />
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <Leaf className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold">AgriSmart</span>
+                <span className="text-2xl font-bold">AgriSmart</span>
               </div>
-              <p className="text-gray-400">
-                Revolutionizing agriculture through AI and IoT technology.
+              <p className="text-gray-400 text-lg leading-relaxed mb-6">
+                Revolutionizing agriculture through AI and IoT technology. 
+                Empowering farmers with smart solutions for sustainable farming.
               </p>
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
+                  <Globe className="h-5 w-5" />
+                </div>
+                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
+                  <Users className="h-5 w-5" />
+                </div>
+              </div>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Product</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>Plant Disease Detection</li>
-                <li>Smart Irrigation</li>
-                <li>Heat Alerts</li>
-                <li>Zone Management</li>
-                <li>AI Agricultural Consultant</li>
-                <li>Analytics Dashboard</li>
-                <li>AI Recommendations</li>
-                <li>Smart Alerts</li>
+              <h3 className="font-bold text-lg mb-6">Product</h3>
+              <ul className="space-y-3 text-gray-400">
+                <li className="hover:text-white transition-colors cursor-pointer">AI Disease Detection</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Smart Irrigation</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Heat Alerts</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Zone Management</li>
+                <li className="hover:text-white transition-colors cursor-pointer">AI Consultant</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Analytics Dashboard</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Support</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>Documentation</li>
-                <li>Help Center</li>
-                <li>Community</li>
-                <li>Contact Us</li>
+              <h3 className="font-bold text-lg mb-6">Support</h3>
+              <ul className="space-y-3 text-gray-400">
+                <li className="hover:text-white transition-colors cursor-pointer">Documentation</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Help Center</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Community</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Contact Us</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Training</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>About Us</li>
-                <li>Careers</li>
-                <li>Privacy Policy</li>
-                <li>Terms of Service</li>
+              <h3 className="font-bold text-lg mb-6">Company</h3>
+              <ul className="space-y-3 text-gray-400">
+                <li className="hover:text-white transition-colors cursor-pointer">About Us</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Careers</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Privacy Policy</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Terms of Service</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Blog</li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 AgriSmart. All rights reserved.</p>
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 AgriSmart. All rights reserved. Made with ❤️ for farmers worldwide.</p>
           </div>
         </div>
       </footer>
