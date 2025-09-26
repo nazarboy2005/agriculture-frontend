@@ -16,8 +16,8 @@ const BackendStatus: React.FC<BackendStatusProps> = ({ showDetails = false }) =>
     setError(null);
     
     try {
-      // Try to reach a simple endpoint
-      const response = await api.get('/v1/auth/me', { timeout: 5000 });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const response = await api.get('/health');
       setStatus('online');
       setLastCheck(new Date());
     } catch (err: any) {
