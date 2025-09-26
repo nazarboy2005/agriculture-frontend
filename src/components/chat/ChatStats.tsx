@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, TrendingUp, Clock, ThumbsUp, MessageCircle, Calendar } from 'lucide-react';
+import { BarChart3, TrendingUp, ThumbsUp, MessageCircle, Calendar } from 'lucide-react';
 
 interface ChatStatsProps {
   totalMessages: number;

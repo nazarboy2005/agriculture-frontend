@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { 
-  Send, 
   Bot, 
   ThumbsUp, 
   ThumbsDown, 
@@ -9,20 +8,9 @@ import {
   Filter,
   Loader,
   MessageCircle,
-  Clock,
   Check,
   CheckCheck,
-  MoreVertical,
-  Copy,
-  RefreshCw,
-  Star,
-  Archive,
-  Trash2,
-  Settings,
-  Zap,
-  TrendingUp,
-  Calendar,
-  BarChart3
+  Settings
 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -59,7 +47,7 @@ const Chat: React.FC = () => {
     checkAuthStatus();
   }, []);
 
-  const { data: chatHistory, isLoading: historyLoading, error: historyError } = useQuery(
+  const { data: chatHistory, isLoading: historyLoading } = useQuery(
     ['chat-history', farmerId],
     () => chatApi.getChatHistory(farmerId),
     { 

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { 
   Droplets, 
   Thermometer, 
-  Lightbulb, 
   Search,
   BarChart3,
   ArrowRight,
@@ -11,7 +10,6 @@ import {
   Leaf,
   MessageCircle,
   MapPin,
-  Bell,
   Shield,
   Zap,
   Globe,

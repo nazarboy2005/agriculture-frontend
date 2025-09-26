@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bot, Copy, ThumbsUp, ThumbsDown, Check, CheckCheck, MoreVertical } from 'lucide-react';
+import { Bot, Copy, ThumbsUp, ThumbsDown, Check, CheckCheck } from 'lucide-react';
 import { formatDateTime } from '../../utils/format';
 import toast from 'react-hot-toast';
 
@@ -29,7 +29,6 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   onCopy,
   messageTypeOptions = []
 }) => {
-  const [showActions, setShowActions] = useState(false);
 
   const handleCopy = () => {
     if (onCopy) {

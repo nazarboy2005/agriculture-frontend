@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Paperclip, Smile, Mic, MicOff, X } from 'lucide-react';
 import Button from '../ui/Button';
-import Input from '../ui/Input';
 
 interface ChatInputProps {
   message: string;
