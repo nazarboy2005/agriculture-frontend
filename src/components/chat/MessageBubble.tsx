@@ -140,12 +140,15 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
           <span className="text-xs text-gray-500">
             {formatDateTime(timestamp)}
           </span>
-          {getMessageStatus().icon && (
-            <div className="flex items-center space-x-1">
-              <getMessageStatus().icon className={`h-3 w-3 ${getMessageStatus().color}`} />
-              <span className="text-xs text-gray-500">{getMessageStatus().text}</span>
-            </div>
-          )}
+          {(() => {
+            const status = getMessageStatus();
+            return status.icon && (
+              <div className="flex items-center space-x-1">
+                {React.createElement(status.icon, { className: `h-3 w-3 ${status.color}` })}
+                <span className="text-xs text-gray-500">{status.text}</span>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
