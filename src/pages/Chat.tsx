@@ -44,7 +44,7 @@ const Chat: React.FC = () => {
     checkAuthStatus();
   }, []);
 
-  const { data: chatHistory, isLoading: historyLoading } = useQuery(
+  const { isLoading: historyLoading } = useQuery(
     ['chat-history', farmerId],
     () => chatApi.getChatHistory(farmerId),
     { 
