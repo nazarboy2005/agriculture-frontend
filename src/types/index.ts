@@ -141,6 +141,7 @@ export interface Chat {
   messageType: 'GENERAL' | 'IRRIGATION_ADVICE' | 'CROP_MANAGEMENT' | 'WEATHER_QUERY' | 'PEST_DISEASE' | 'SOIL_HEALTH' | 'FERTILIZER_ADVICE' | 'HARVEST_PLANNING' | 'MARKET_INFO' | 'TECHNICAL_SUPPORT';
   isHelpful?: boolean;
   userFeedback?: string;
+  tempId?: number; // Optional temporary ID for local state management
   createdAt: string;
   updatedAt: string;
 }
