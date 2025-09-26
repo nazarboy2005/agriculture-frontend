@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Paperclip, Smile, Mic, MicOff, X } from 'lucide-react';
-import Button from '../ui/Button';
+import { Send } from 'lucide-react';
 
 interface ChatInputProps {
   message: string;
@@ -24,8 +23,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
   className = ''
 }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [showAttachmentMenu, setShowAttachmentMenu] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const messageTypeOptions = [
@@ -40,8 +37,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
     { value: 'SOIL_HEALTH', label: 'Soil Health', icon: '🌍', color: 'bg-amber-100 text-amber-800' }
   ];
 
-  const quickEmojis = ['🌱', '🌤️', '💧', '🐛', '💰', '🚜', '🌍', '🧪', '📊', '⚡'];
-
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -49,27 +44,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
         onSubmit(e);
       }
     }
-  };
-
-  const handleEmojiClick = (emoji: string) => {
-    setMessage(message + emoji);
-    setShowEmojiPicker(false);
-    textareaRef.current?.focus();
-  };
-
-  const handleVoiceToggle = () => {
-    setIsRecording(!isRecording);
-    // Here you would implement voice recording functionality
-    // For now, just toggle the state
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Here you would handle file upload
-      console.log('File selected:', file);
-    }
-    setShowAttachmentMenu(false);
   };
 
   const adjustTextareaHeight = () => {
