@@ -61,7 +61,7 @@ const Register: React.FC = () => {
     setIsRegistering(true);
     
     try {
-      const response = await authApi.register({
+      await authApi.register({
         name: formData.name,
         email: formData.email,
         password: formData.password
