@@ -264,82 +264,68 @@ const Chat: React.FC = () => {
 
   const messageTypeOptions = [
     { value: 'GENERAL', label: 'General', icon: '💬', color: 'bg-blue-100 text-blue-800' },
-    { value: 'WEATHER', label: 'Weather', icon: '🌤️', color: 'bg-yellow-100 text-yellow-800' },
-    { value: 'CROP_HEALTH', label: 'Crop Health', icon: '🌱', color: 'bg-green-100 text-green-800' },
-    { value: 'IRRIGATION', label: 'Irrigation', icon: '💧', color: 'bg-cyan-100 text-cyan-800' },
-    { value: 'PEST_CONTROL', label: 'Pest Control', icon: '🐛', color: 'bg-red-100 text-red-800' },
-    { value: 'FERTILIZER', label: 'Fertilizer', icon: '🧪', color: 'bg-purple-100 text-purple-800' },
-    { value: 'MARKET_PRICES', label: 'Market Prices', icon: '💰', color: 'bg-emerald-100 text-emerald-800' },
-    { value: 'FARM_EQUIPMENT', label: 'Farm Equipment', icon: '🚜', color: 'bg-orange-100 text-orange-800' },
+    { value: 'WEATHER_QUERY', label: 'Weather', icon: '🌤️', color: 'bg-yellow-100 text-yellow-800' },
+    { value: 'CROP_MANAGEMENT', label: 'Crop Health', icon: '🌱', color: 'bg-green-100 text-green-800' },
+    { value: 'IRRIGATION_ADVICE', label: 'Irrigation', icon: '💧', color: 'bg-cyan-100 text-cyan-800' },
+    { value: 'PEST_DISEASE', label: 'Pest Control', icon: '🐛', color: 'bg-red-100 text-red-800' },
+    { value: 'FERTILIZER_ADVICE', label: 'Fertilizer', icon: '🧪', color: 'bg-purple-100 text-purple-800' },
+    { value: 'MARKET_INFO', label: 'Market Prices', icon: '💰', color: 'bg-emerald-100 text-emerald-800' },
+    { value: 'TECHNICAL_SUPPORT', label: 'Farm Equipment', icon: '🚜', color: 'bg-orange-100 text-orange-800' },
     { value: 'SOIL_HEALTH', label: 'Soil Health', icon: '🌍', color: 'bg-amber-100 text-amber-800' }
   ];
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <div className="max-w-7xl mx-auto p-4">
-        {/* Modern Header */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <Bot className="h-7 w-7 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">AI Farm Assistant</h1>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm text-green-600 font-medium">Online</span>
-                </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto h-screen flex flex-col">
+        {/* ChatGPT-style Header */}
+        <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+              <Bot className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-gray-900">AI Farm Assistant</h1>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-gray-500">Online</span>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Button
-                onClick={handleShowHistory}
-                variant="outline"
-                size="sm"
-                className="border-gray-300 hover:bg-gray-50 rounded-xl"
-              >
-                <MessageCircle className="h-4 w-4 mr-2" />
-                {showHistory ? 'Hide History' : 'History'}
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="border-gray-300 hover:bg-gray-50 rounded-xl"
-              >
-                <Settings className="h-4 w-4" />
-              </Button>
-            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              onClick={handleShowHistory}
+              variant="outline"
+              size="sm"
+              className="border-gray-300 hover:bg-gray-50 rounded-lg text-sm"
+            >
+              <MessageCircle className="h-4 w-4 mr-1" />
+              {showHistory ? 'Hide' : 'History'}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-gray-300 hover:bg-gray-50 rounded-lg"
+            >
+              <Settings className="h-4 w-4" />
+            </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="flex-1 flex overflow-hidden">
           {/* Main Chat Interface */}
-          <div className="lg:col-span-3">
-            <div className="bg-white rounded-2xl shadow-xl border-0 overflow-hidden h-[calc(100vh-200px)] flex flex-col">
-              {/* Chat Header */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-100">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-md">
-                    <Bot className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900">AI Agricultural Consultant</h3>
-                    <p className="text-sm text-gray-600">Ready to help with your farming questions</p>
-                  </div>
-                </div>
-              </div>
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 bg-white flex flex-col">
               
               {/* Messages Area */}
               <div 
                 ref={messagesContainerRef}
-                className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-white to-gray-50/50"
+                className="flex-1 overflow-y-auto bg-white"
               >
                 {historyLoading ? (
                   <div className="flex items-center justify-center h-32">
                     <div className="flex items-center space-x-3">
-                      <Loader className="h-6 w-6 animate-spin text-blue-600" />
+                      <Loader className="h-6 w-6 animate-spin text-green-600" />
                       <span className="text-sm text-gray-600">Loading chat history...</span>
                     </div>
                   </div>
@@ -404,58 +390,66 @@ const Chat: React.FC = () => {
                       )}
                     </div>
                 ) : displayChats.length === 0 ? (
-                  <div className="flex items-center justify-center h-full">
-                    <div className="text-center max-w-md">
-                      <div className="w-24 h-24 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <Bot className="h-12 w-12 text-blue-600" />
+                  <div className="flex items-center justify-center h-full px-4">
+                    <div className="text-center max-w-2xl">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Bot className="h-8 w-8 text-green-600" />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 mb-3">Welcome to AI Farm Assistant!</h3>
+                      <h3 className="text-2xl font-semibold text-gray-900 mb-3">How can I help you today?</h3>
                       <p className="text-gray-600 mb-8 leading-relaxed">
-                        I'm your intelligent farming companion. Ask me anything about crops, weather, soil health, irrigation, or agricultural best practices.
+                        I'm your AI farming assistant. Ask me anything about crops, weather, soil health, irrigation, or agricultural best practices.
                       </p>
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-blue-50 p-3 rounded-xl">
-                          <div className="text-2xl mb-1">🌱</div>
-                          <div className="text-sm font-medium text-blue-800">Crop Health</div>
+                      <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto">
+                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("What's the best time to water my crops?"); setMessageType("IRRIGATION_ADVICE");}}>
+                          <div className="text-2xl mb-2">💧</div>
+                          <div className="text-sm font-medium text-gray-800">Irrigation Advice</div>
                         </div>
-                        <div className="bg-green-50 p-3 rounded-xl">
-                          <div className="text-2xl mb-1">🌤️</div>
-                          <div className="text-sm font-medium text-green-800">Weather</div>
+                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("How's the weather affecting my crops?"); setMessageType("WEATHER_QUERY");}}>
+                          <div className="text-2xl mb-2">🌤️</div>
+                          <div className="text-sm font-medium text-gray-800">Weather Query</div>
                         </div>
-                        <div className="bg-yellow-50 p-3 rounded-xl">
-                          <div className="text-2xl mb-1">💧</div>
-                          <div className="text-sm font-medium text-yellow-800">Irrigation</div>
+                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("My crops look unhealthy, what should I do?"); setMessageType("CROP_MANAGEMENT");}}>
+                          <div className="text-2xl mb-2">🌱</div>
+                          <div className="text-sm font-medium text-gray-800">Crop Health</div>
                         </div>
-                        <div className="bg-purple-50 p-3 rounded-xl">
-                          <div className="text-2xl mb-1">🧪</div>
-                          <div className="text-sm font-medium text-purple-800">Fertilizer</div>
+                        <div className="bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => {setMessage("What fertilizer should I use?"); setMessageType("FERTILIZER_ADVICE");}}>
+                          <div className="text-2xl mb-2">🧪</div>
+                          <div className="text-sm font-medium text-gray-800">Fertilizer</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-6">
+                  <div className="px-4 py-6">
                     {displayChats.map((chat) => (
-                      <div key={chat.id} className="space-y-4">
+                      <div key={chat.id} className="space-y-6 mb-8">
                         {/* User Message */}
-                        <MessageBubble
-                          message={chat.userMessage || ''}
-                          isUser={true}
-                          timestamp={chat.createdAt || new Date().toISOString()}
-                          onCopy={handleCopyMessage}
-                        />
+                        <div className="flex justify-end">
+                          <div className="max-w-3xl">
+                            <MessageBubble
+                              message={chat.userMessage || ''}
+                              isUser={true}
+                              timestamp={chat.createdAt || new Date().toISOString()}
+                              onCopy={handleCopyMessage}
+                            />
+                          </div>
+                        </div>
 
                         {/* AI Response */}
-                        <MessageBubble
-                          message={chat.aiResponse || ''}
-                          isUser={false}
-                          timestamp={chat.createdAt || new Date().toISOString()}
-                          messageType={chat.messageType || 'GENERAL'}
-                          isHelpful={chat.isHelpful}
-                          onFeedback={(isHelpful) => handleFeedback(chat.id, isHelpful)}
-                          onCopy={handleCopyMessage}
-                          messageTypeOptions={messageTypeOptions}
-                        />
+                        <div className="flex justify-start">
+                          <div className="max-w-3xl">
+                            <MessageBubble
+                              message={chat.aiResponse || ''}
+                              isUser={false}
+                              timestamp={chat.createdAt || new Date().toISOString()}
+                              messageType={chat.messageType || 'GENERAL'}
+                              isHelpful={chat.isHelpful}
+                              onFeedback={(isHelpful) => handleFeedback(chat.id, isHelpful)}
+                              onCopy={handleCopyMessage}
+                              messageTypeOptions={messageTypeOptions}
+                            />
+                          </div>
+                        </div>
                       </div>
                     ))}
                     
@@ -466,7 +460,7 @@ const Chat: React.FC = () => {
               </div>
 
               {/* Message Input */}
-              <div className="border-t border-gray-100 bg-white p-4">
+              <div className="border-t border-gray-200 bg-white p-4">
                 <ChatInput
                   message={message}
                   setMessage={setMessage}
@@ -474,79 +468,78 @@ const Chat: React.FC = () => {
                   setMessageType={setMessageType}
                   onSubmit={handleSendMessage}
                   isLoading={sendMessageMutation.isLoading}
-                  placeholder="Ask me anything about your farm..."
+                  placeholder="Message AI Farm Assistant..."
                 />
               </div>
             </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-4">
-            {/* Search & Filter */}
-            <div className="bg-white rounded-2xl shadow-lg border-0 p-4">
-              <h3 className="text-lg font-semibold text-gray-900 flex items-center mb-4">
-                <Search className="h-5 w-5 mr-2 text-blue-600" />
-                Search & Filter
-              </h3>
-              <div className="space-y-3">
-                <Input
-                  placeholder="Search messages..."
-                  value={searchQuery}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-                  leftIcon={<Search className="h-4 w-4" />}
-                  className="border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
-                />
-                <select
-                  value={filterType}
-                  onChange={(e) => setFilterType(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                >
-                  <option value="">All Types</option>
-                  {messageTypeOptions.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.icon} {option.label}
-                    </option>
-                  ))}
-                </select>
-                <Button 
-                  variant="outline" 
-                  onClick={() => {
-                    setSearchQuery('');
-                    setFilterType('');
+          {/* Sidebar - Only show when history is open */}
+          {showHistory && (
+            <div className="w-80 bg-gray-50 border-l border-gray-200 flex flex-col">
+              {/* Search & Filter */}
+              <div className="p-4 border-b border-gray-200">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">Search & Filter</h3>
+                <div className="space-y-3">
+                  <Input
+                    placeholder="Search messages..."
+                    value={searchQuery}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                    leftIcon={<Search className="h-4 w-4" />}
+                    className="border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  />
+                  <select
+                    value={filterType}
+                    onChange={(e) => setFilterType(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
+                  >
+                    <option value="">All Types</option>
+                    {messageTypeOptions.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.icon} {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setSearchQuery('');
+                      setFilterType('');
+                    }}
+                    className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg text-sm"
+                  >
+                    <Filter className="h-4 w-4 mr-2" />
+                    Clear Filters
+                  </Button>
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="p-4 border-b border-gray-200">
+                <QuickActions
+                  onQuestionSelect={(question, type) => {
+                    setMessage(question);
+                    setMessageType(type);
                   }}
-                  className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl"
-                >
-                  <Filter className="h-4 w-4 mr-2" />
-                  Clear Filters
-                </Button>
+                />
+              </div>
+
+              {/* Chat Stats */}
+              <div className="p-4">
+                <ChatStats
+                  totalMessages={displayChats.length}
+                  weeklyMessages={displayChats.filter(chat => {
+                    const chatDate = new Date(chat.createdAt);
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return chatDate >= weekAgo;
+                  }).length}
+                  helpfulResponses={displayChats.filter(chat => chat.isHelpful === true).length}
+                  responseRate={displayChats.length > 0 ? Math.round((displayChats.filter(chat => chat.isHelpful === true).length / displayChats.length) * 100) : 0}
+                />
               </div>
             </div>
-
-            {/* Quick Actions */}
-            <div className="bg-white rounded-2xl shadow-lg border-0 p-4">
-              <QuickActions
-                onQuestionSelect={(question, type) => {
-                  setMessage(question);
-                  setMessageType(type);
-                }}
-              />
-            </div>
-
-            {/* Chat Stats */}
-            <div className="bg-white rounded-2xl shadow-lg border-0 p-4">
-              <ChatStats
-                totalMessages={displayChats.length}
-                weeklyMessages={displayChats.filter(chat => {
-                  const chatDate = new Date(chat.createdAt);
-                  const weekAgo = new Date();
-                  weekAgo.setDate(weekAgo.getDate() - 7);
-                  return chatDate >= weekAgo;
-                }).length}
-                helpfulResponses={displayChats.filter(chat => chat.isHelpful === true).length}
-                responseRate={displayChats.length > 0 ? Math.round((displayChats.filter(chat => chat.isHelpful === true).length / displayChats.length) * 100) : 0}
-              />
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

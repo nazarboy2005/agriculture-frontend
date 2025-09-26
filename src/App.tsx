@@ -24,7 +24,6 @@ import HeatAlerts from './pages/HeatAlerts';
 import ZoneManagement from './pages/ZoneManagement';
 import DiseaseDetection from './pages/DiseaseDetection';
 import Admin from './pages/Admin';
-import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -114,13 +113,6 @@ function App() {
           <ProtectedRoute requireAdmin>
             <Layout>
               <Admin />
-            </Layout>
-          </ProtectedRoute>
-        } />
-        <Route path="/settings" element={
-          <ProtectedRoute>
-            <Layout>
-              <Settings />
             </Layout>
           </ProtectedRoute>
         } />

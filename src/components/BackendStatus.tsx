@@ -54,7 +54,7 @@ const BackendStatus: React.FC<BackendStatusProps> = ({ showDetails = false }) =>
       case 'offline':
         return 'Backend Offline';
       case 'error':
-        return 'Backend Error';
+        return 'Connection Error';
     }
   };
 

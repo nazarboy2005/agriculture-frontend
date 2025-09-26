@@ -53,10 +53,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
 
   if (isUser) {
     return (
-      <div className="flex justify-end">
-        <div className="max-w-2xl">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-2xl rounded-br-md shadow-lg">
-            <p className="text-sm leading-relaxed">{message}</p>
+      <div className="flex justify-end mb-6">
+        <div className="max-w-3xl">
+          <div className="bg-gray-800 text-white p-4 rounded-2xl rounded-br-md">
+            <p className="text-sm leading-relaxed whitespace-pre-wrap">{message}</p>
           </div>
           <div className="flex items-center justify-end mt-2 space-x-2">
             <span className="text-xs text-gray-500">
@@ -75,15 +75,15 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   }
 
   return (
-    <div className="flex justify-start">
-      <div className="max-w-2xl">
-        <div className="bg-white border border-gray-200 p-4 rounded-2xl rounded-bl-md shadow-lg">
+    <div className="flex justify-start mb-6">
+      <div className="max-w-3xl">
+        <div className="bg-gray-50 border border-gray-200 p-4 rounded-2xl rounded-bl-md">
           <div className="flex items-start space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
               <Bot className="h-4 w-4 text-white" />
             </div>
             <div className="flex-1">
-              <div className="text-sm text-gray-900 leading-relaxed">
+              <div className="text-sm text-gray-900 leading-relaxed whitespace-pre-wrap">
                 {message.split('\n').map((line, index) => {
                   // Clean up markdown formatting
                   const cleanLine = line
@@ -99,16 +99,16 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
               </div>
               <div className="flex items-center justify-between mt-4">
                 <div className="flex items-center space-x-2">
-                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${messageTypeInfo.color}`}>
+                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${messageTypeInfo.color}`}>
                     {messageTypeInfo.icon} {messageTypeInfo.label}
                   </span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <button
                     onClick={() => onFeedback?.(true)}
-                    className={`p-2 rounded-full transition-all duration-200 ${
+                    className={`p-1.5 rounded-full transition-all duration-200 ${
                       isHelpful === true 
-                        ? 'text-green-600 bg-green-100 shadow-sm' 
+                        ? 'text-green-600 bg-green-100' 
                         : 'text-gray-400 hover:text-green-600 hover:bg-green-50'
                     }`}
                   >
@@ -116,9 +116,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                   </button>
                   <button
                     onClick={() => onFeedback?.(false)}
-                    className={`p-2 rounded-full transition-all duration-200 ${
+                    className={`p-1.5 rounded-full transition-all duration-200 ${
                       isHelpful === false 
-                        ? 'text-red-600 bg-red-100 shadow-sm' 
+                        ? 'text-red-600 bg-red-100' 
                         : 'text-gray-400 hover:text-red-600 hover:bg-red-50'
                     }`}
                   >
@@ -126,7 +126,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                   </button>
                   <button
                     onClick={handleCopy}
-                    className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200"
+                    className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-200"
                   >
                     <Copy className="h-4 w-4" />
                   </button>

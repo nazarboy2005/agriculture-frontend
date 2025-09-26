@@ -30,13 +30,13 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
   const messageTypeOptions = [
     { value: 'GENERAL', label: 'General', icon: '💬', color: 'bg-blue-100 text-blue-800' },
-    { value: 'WEATHER', label: 'Weather', icon: '🌤️', color: 'bg-yellow-100 text-yellow-800' },
-    { value: 'CROP_HEALTH', label: 'Crop Health', icon: '🌱', color: 'bg-green-100 text-green-800' },
-    { value: 'IRRIGATION', label: 'Irrigation', icon: '💧', color: 'bg-cyan-100 text-cyan-800' },
-    { value: 'PEST_CONTROL', label: 'Pest Control', icon: '🐛', color: 'bg-red-100 text-red-800' },
-    { value: 'FERTILIZER', label: 'Fertilizer', icon: '🧪', color: 'bg-purple-100 text-purple-800' },
-    { value: 'MARKET_PRICES', label: 'Market Prices', icon: '💰', color: 'bg-emerald-100 text-emerald-800' },
-    { value: 'FARM_EQUIPMENT', label: 'Farm Equipment', icon: '🚜', color: 'bg-orange-100 text-orange-800' },
+    { value: 'WEATHER_QUERY', label: 'Weather', icon: '🌤️', color: 'bg-yellow-100 text-yellow-800' },
+    { value: 'CROP_MANAGEMENT', label: 'Crop Health', icon: '🌱', color: 'bg-green-100 text-green-800' },
+    { value: 'IRRIGATION_ADVICE', label: 'Irrigation', icon: '💧', color: 'bg-cyan-100 text-cyan-800' },
+    { value: 'PEST_DISEASE', label: 'Pest Control', icon: '🐛', color: 'bg-red-100 text-red-800' },
+    { value: 'FERTILIZER_ADVICE', label: 'Fertilizer', icon: '🧪', color: 'bg-purple-100 text-purple-800' },
+    { value: 'MARKET_INFO', label: 'Market Prices', icon: '💰', color: 'bg-emerald-100 text-emerald-800' },
+    { value: 'TECHNICAL_SUPPORT', label: 'Farm Equipment', icon: '🚜', color: 'bg-orange-100 text-orange-800' },
     { value: 'SOIL_HEALTH', label: 'Soil Health', icon: '🌍', color: 'bg-amber-100 text-amber-800' }
   ];
 
@@ -84,14 +84,14 @@ const ChatInput: React.FC<ChatInputProps> = ({
   }, [message]);
 
   return (
-    <div className={`bg-white border-t border-gray-100 p-6 ${className}`}>
-      <form onSubmit={onSubmit} className="space-y-4">
-        {/* Message Type Selector */}
-        <div className="flex space-x-3">
+    <div className={`bg-white border-t border-gray-200 p-4 ${className}`}>
+      <form onSubmit={onSubmit} className="space-y-3">
+        {/* Message Type Selector - Compact */}
+        <div className="flex justify-center">
           <select
             value={messageType}
             onChange={(e) => setMessageType(e.target.value)}
-            className="flex-1 p-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-12 bg-white shadow-sm"
+            className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white"
           >
             {messageTypeOptions.map(option => (
               <option key={option.value} value={option.value}>
@@ -101,8 +101,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
           </select>
         </div>
         
-        {/* Input Area */}
-        <div className="flex space-x-3">
+        {/* Input Area - ChatGPT Style */}
+        <div className="flex items-end space-x-3">
           <div className="flex-1 relative">
             <textarea
               ref={textareaRef}
@@ -111,105 +111,22 @@ const ChatInput: React.FC<ChatInputProps> = ({
               onKeyPress={handleKeyPress}
               placeholder={placeholder}
               disabled={isLoading}
-              className="w-full p-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm resize-none min-h-[48px] max-h-[120px]"
+              className="w-full p-3 border border-gray-300 rounded-2xl text-base focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none min-h-[44px] max-h-[120px] pr-12"
               rows={1}
             />
             
-            {/* Action Buttons */}
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
-              <button
-                type="button"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <Smile className="h-4 w-4" />
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => setShowAttachmentMenu(!showAttachmentMenu)}
-                className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <Paperclip className="h-4 w-4" />
-              </button>
-            </div>
-
-            {/* Emoji Picker */}
-            {showEmojiPicker && (
-              <div className="absolute bottom-full right-0 mb-2 p-3 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">Quick Emojis</span>
-                  <button
-                    onClick={() => setShowEmojiPicker(false)}
-                    className="p-1 text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-                <div className="grid grid-cols-5 gap-2">
-                  {quickEmojis.map((emoji, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleEmojiClick(emoji)}
-                      className="p-2 text-lg hover:bg-gray-100 rounded-lg transition-colors"
-                    >
-                      {emoji}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Attachment Menu */}
-            {showAttachmentMenu && (
-              <div className="absolute bottom-full right-0 mb-2 p-3 bg-white border border-gray-200 rounded-xl shadow-lg z-10">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">Attach File</span>
-                  <button
-                    onClick={() => setShowAttachmentMenu(false)}
-                    className="p-1 text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-                <div className="space-y-2">
-                  <label className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
-                    <input
-                      type="file"
-                      accept="image/*,.pdf,.doc,.docx"
-                      onChange={handleFileUpload}
-                      className="hidden"
-                    />
-                    <Paperclip className="h-4 w-4 text-gray-600" />
-                    <span className="text-sm text-gray-700">Upload File</span>
-                  </label>
-                </div>
-              </div>
-            )}
-          </div>
-          
-          <div className="flex flex-col space-y-2">
-            <Button
-              type="button"
-              onClick={handleVoiceToggle}
-              variant="outline"
-              className={`p-3 h-12 w-12 rounded-xl ${
-                isRecording 
-                  ? 'bg-red-100 text-red-600 border-red-300' 
-                  : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-              }`}
-            >
-              {isRecording ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
-            </Button>
-            
-            <Button 
-              type="submit" 
+            {/* Send Button - Inside Input */}
+            <button
+              type="submit"
               disabled={!message.trim() || isLoading}
-              loading={isLoading}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl h-12 shadow-lg hover:shadow-xl transition-all duration-200"
+              className="absolute right-2 bottom-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             >
-              <Send className="h-5 w-5" />
-            </Button>
+              {isLoading ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+            </button>
           </div>
         </div>
       </form>
