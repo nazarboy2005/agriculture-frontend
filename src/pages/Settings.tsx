@@ -6,7 +6,6 @@ import Input from '../components/ui/Input';
 import { 
   User, 
   Mail, 
-  Shield, 
   Download, 
   Upload,
   Save,
