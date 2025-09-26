@@ -254,7 +254,7 @@ const Register: React.FC = () => {
                 
                 <Button
                   onClick={() => {
-                    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:9090/api';
+                    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://agriculture-backend-1077945709935.europe-west1.run.app/api';
                     window.location.href = `${apiBaseUrl}/oauth2/authorization/google`;
                   }}
                   className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-[1.02]"

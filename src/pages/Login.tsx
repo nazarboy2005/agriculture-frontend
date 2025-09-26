@@ -44,7 +44,7 @@ const Login: React.FC = () => {
 
   const handleGoogleLogin = () => {
     // Redirect to backend OAuth2 endpoint
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:9090/api';
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://agriculture-backend-1077945709935.europe-west1.run.app/api';
     window.location.href = `${apiBaseUrl}/oauth2/authorization/google`;
   };
 

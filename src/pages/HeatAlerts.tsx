@@ -162,7 +162,8 @@ const HeatAlerts: React.FC = () => {
         }
       }
       
-      const response = await fetch(`http://localhost:9090/api/v1/smart-irrigation/heat-alerts/${latitude}/${longitude}`);
+      const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://agriculture-backend-1077945709935.europe-west1.run.app/api';
+      const response = await fetch(`${apiBaseUrl}/v1/smart-irrigation/heat-alerts/${latitude}/${longitude}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch heat alerts');

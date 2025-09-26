@@ -146,7 +146,8 @@ const RecommendationGenerator: React.FC<RecommendationGeneratorProps> = ({
       messageType: req.category.toUpperCase()
     };
 
-    const response = await fetch('http://localhost:9090/api/v1/recommendations/generate', {
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://agriculture-backend-1077945709935.europe-west1.run.app/api';
+    const response = await fetch(`${apiBaseUrl}/v1/recommendations/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

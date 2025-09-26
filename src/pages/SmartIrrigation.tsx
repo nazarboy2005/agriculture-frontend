@@ -221,7 +221,8 @@ const SmartIrrigation: React.FC = () => {
 
     try {
       // Call real API to generate irrigation plan
-      const response = await fetch('http://localhost:9090/api/v1/smart-irrigation/generate-plan', {
+      const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://agriculture-backend-1077945709935.europe-west1.run.app/api';
+      const response = await fetch(`${apiBaseUrl}/v1/smart-irrigation/generate-plan`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -9,7 +9,8 @@ export const testAuth = () => {
   }
   
   // Test if token is valid by making a simple API call
-  fetch('http://localhost:9090/api/v1/auth/me', {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'https://agriculture-backend-1077945709935.europe-west1.run.app/api';
+  fetch(`${apiBaseUrl}/v1/auth/me`, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
