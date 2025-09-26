@@ -9,15 +9,11 @@ import {
   Bell, 
   Shield, 
   Palette, 
-  Globe, 
   Download, 
   Upload,
   Save,
   Eye,
-  EyeOff,
-  Smartphone,
-  Monitor,
-  Tablet
+  EyeOff
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
