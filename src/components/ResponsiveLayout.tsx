@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { cn } from '../utils/cn';
-import BackendStatus from './BackendStatus';
 
 interface ResponsiveLayoutProps {
   children: React.ReactNode;
@@ -235,7 +234,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) => {
         deviceType === 'mobile' ? "ml-0" : "ml-64"
       )}>
         {/* Top bar */}
-        <div className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white/80 backdrop-blur-sm px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+        <div className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white/95 backdrop-blur-sm px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
           <button
             type="button"
             className="p-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
@@ -258,8 +257,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) => {
                 <span className="capitalize">{deviceType}</span>
               </div>
               
-              {/* System status */}
-              <BackendStatus />
+              {/* System status removed to clean up header */}
               
               {/* User Menu */}
               <div className="relative">

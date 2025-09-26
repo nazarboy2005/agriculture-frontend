@@ -65,12 +65,25 @@ const Chat: React.FC = () => {
       onSuccess: (response) => {
         const chatData = response?.data?.data;
         if (chatData) {
-          setLocalMessages(prev => [chatData, ...prev]);
+          setLocalMessages(prev => {
+            // Remove the temporary message and add the real response
+            const filtered = prev.filter(msg => msg.tempId !== chatData.tempId);
+            return [chatData, ...filtered];
+          });
         }
         setIsTyping(false);
       },
-      onError: () => {
+      onError: (error) => {
+        // Remove the temporary message on error
+        setLocalMessages(prev => {
+          const tempId = prev.find(msg => msg.aiResponse === 'Thinking...')?.tempId;
+          if (tempId) {
+            return prev.filter(msg => msg.tempId !== tempId);
+          }
+          return prev;
+        });
         setIsTyping(false);
+        console.error('Failed to send message:', error);
       },
     }
   );
@@ -114,13 +127,18 @@ const Chat: React.FC = () => {
     e.preventDefault();
     if (!message.trim()) return;
 
+    const tempId = Date.now();
+    const userMessage = message;
+    const messageTypeToSend = messageType;
+
     // Add message immediately to local state
     const newMessage = {
-      id: Date.now(),
+      id: tempId,
+      tempId: tempId, // Store temp ID for later removal
       farmerId: farmerId,
-      userMessage: message,
+      userMessage: userMessage,
       aiResponse: 'Thinking...',
-      messageType: messageType,
+      messageType: messageTypeToSend,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       isHelpful: null,
@@ -131,7 +149,7 @@ const Chat: React.FC = () => {
     setMessage('');
     setIsTyping(true);
     
-    sendMessageMutation.mutate({ message, messageType });
+    sendMessageMutation.mutate({ message: userMessage, messageType: messageTypeToSend });
   };
 
   const handleFeedback = (chatId: number, isHelpful: boolean) => {
@@ -183,10 +201,10 @@ const Chat: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 fixed inset-0 overflow-hidden">
-      <div className="w-full h-full flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="w-full h-screen flex flex-col pt-0">
         {/* Modern Glass Header - Mobile Responsive */}
-        <div className="bg-white/80 backdrop-blur-xl border-b border-white/20 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shadow-lg flex-shrink-0">
+        <div className="bg-white/95 backdrop-blur-xl border-b border-white/20 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shadow-lg flex-shrink-0 sticky top-0 z-40">
           <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
             <div className="relative flex-shrink-0">
               <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -221,7 +239,7 @@ const Chat: React.FC = () => {
         <div className="flex-1 flex overflow-hidden">
           {/* Main Chat Interface */}
           <div className="flex-1 flex flex-col min-h-0">
-            <div className="flex-1 bg-white/60 backdrop-blur-sm flex flex-col rounded-t-3xl sm:rounded-t-3xl shadow-2xl min-h-0">
+            <div className="flex-1 bg-white/60 backdrop-blur-sm flex flex-col shadow-2xl min-h-0 relative">
               
               {/* Messages Area */}
               <div 
@@ -377,7 +395,7 @@ const Chat: React.FC = () => {
               </div>
 
               {/* Message Input */}
-              <div className="border-t border-white/20 bg-white/40 backdrop-blur-sm p-4 sm:p-6 flex-shrink-0">
+              <div className="border-t border-white/20 bg-white/40 backdrop-blur-sm p-4 sm:p-6 flex-shrink-0 relative z-10">
                 <ChatInput
                   message={message}
                   setMessage={setMessage}
