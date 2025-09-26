@@ -22,7 +22,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
   placeholder = "Ask me anything about your farm...",
   className = ''
 }) => {
-  const [isRecording, setIsRecording] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const messageTypeOptions = [
