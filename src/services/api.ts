@@ -41,24 +41,6 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error('Response interceptor error:', error);
-    console.error('Error details:', {
-      message: error.message,
-      code: error.code,
-      response: error.response?.data,
-      status: error.response?.status,
-      config: error.config
-    });
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
     console.error('API Error:', error.response?.data || error.message);
     
     // Handle 401 errors (unauthorized) - but not for disease detection

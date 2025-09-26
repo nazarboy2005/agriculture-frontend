@@ -75,16 +75,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         // For other errors, keep the token but don't set user
         console.warn('Non-auth error when fetching user data:', error.message);
-        // Set a temporary user with default values to prevent undefined errors
-        const tempUser: User = {
-          id: 1, // Default ID for testing
-          email: 'test@example.com',
-          name: 'Test User',
-          role: 'USER',
-          isEnabled: true,
-          createdAt: new Date().toISOString()
-        };
-        setUser(tempUser);
+        // Don't set a temporary user - let the app handle the error gracefully
+        setUser(null);
       }
     }
   };

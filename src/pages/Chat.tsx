@@ -15,6 +15,7 @@ import Input from '../components/ui/Input';
 import { chatApi } from '../services/api';
 import { formatDateTime } from '../utils/format';
 import { checkAuthStatus } from '../utils/authTest';
+import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
 const Chat: React.FC = () => {
@@ -28,19 +29,29 @@ const Chat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
 
-  // Mock farmer ID - in real app, this would come from auth context
-  // For demo purposes, we'll use a default farmer ID or create one if needed
-  const farmerId = 1;
+  // Get farmer ID from auth context or use a default for demo
+  const { user } = useAuth();
+  const farmerId = user?.id || 1;
 
   // Check authentication status on component mount
   useEffect(() => {
     checkAuthStatus();
   }, []);
 
-  const { data: chatHistory, isLoading: historyLoading } = useQuery(
+  const { data: chatHistory, isLoading: historyLoading, error: historyError } = useQuery(
     ['chat-history', farmerId],
     () => chatApi.getChatHistory(farmerId),
-    { enabled: !!farmerId }
+    { 
+      enabled: !!farmerId,
+      retry: 3,
+      retryDelay: 1000,
+      onError: (error: any) => {
+        console.error('Failed to load chat history:', error);
+        if (error.response?.status !== 401) {
+          toast.error('Failed to load chat history. Please try again.');
+        }
+      }
+    }
   );
 
 
@@ -302,6 +313,20 @@ const Chat: React.FC = () => {
                 {historyLoading ? (
                   <div className="flex items-center justify-center h-32">
                     <Loader className="h-6 w-6 animate-spin text-primary-600" />
+                    <span className="ml-2 text-sm text-gray-600">Loading chat history...</span>
+                  </div>
+                ) : historyError ? (
+                  <div className="flex items-center justify-center h-32">
+                    <div className="text-center">
+                      <div className="text-red-500 mb-2">⚠️</div>
+                      <p className="text-sm text-gray-600">Failed to load chat history</p>
+                      <button 
+                        onClick={() => window.location.reload()}
+                        className="mt-2 text-blue-600 hover:text-blue-700 text-sm"
+                      >
+                        Try again
+                      </button>
+                    </div>
                   </div>
                 ) : showHistory ? (
                   <div className="space-y-2">

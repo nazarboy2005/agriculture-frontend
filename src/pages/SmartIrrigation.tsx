@@ -269,22 +269,22 @@ const SmartIrrigation: React.FC = () => {
       // Create a simple HTML content for PDF
       const htmlContent = generateHTMLContent();
       
-      // Create a new window with the content
-      const printWindow = window.open('', '_blank');
-      if (printWindow) {
-        printWindow.document.write(htmlContent);
-        printWindow.document.close();
-        
-        // Wait for content to load, then print
-        printWindow.onload = () => {
-          printWindow.print();
-          printWindow.close();
-        };
-        
-        toast.success('PDF generation initiated!');
-      } else {
-        throw new Error('Failed to open print window');
-      }
+      // Create a blob and download it
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      
+      // Create a temporary link and trigger download
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `irrigation-plan-${new Date().toISOString().split('T')[0]}.html`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up the URL
+      URL.revokeObjectURL(url);
+      
+      toast.success('PDF file saved successfully!');
     } catch (error) {
       console.error('Error saving PDF:', error);
       toast.error('Failed to save PDF');
