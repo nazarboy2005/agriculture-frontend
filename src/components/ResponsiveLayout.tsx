@@ -45,10 +45,9 @@ const getNavigationItems = (userRole: string) => {
     );
   }
 
-  // Add Zone Management and Settings at the bottom for all users
+  // Add Zone Management at the bottom for all users
   baseNavigation.push(
-    { name: 'Zone Management', href: '/zone-management', icon: MapPin, category: 'management' },
-    { name: 'Settings', href: '/settings', icon: Settings, category: 'management' }
+    { name: 'Zone Management', href: '/zone-management', icon: MapPin, category: 'management' }
   );
 
   return baseNavigation;

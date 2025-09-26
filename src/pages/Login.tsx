@@ -74,7 +74,7 @@ const Login: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-secondary-50">
         <div className="flex items-center space-x-2">
-          <Loader className="h-6 w-6 animate-spin text-primary-600" />
+          <div className="h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
           <span className="text-secondary-600">Loading...</span>
         </div>
       </div>
