@@ -74,6 +74,7 @@ const DiseaseDetection: React.FC = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 30000, // 30 seconds timeout for disease detection
       });
 
       setDetectionResult(response.data);
@@ -98,13 +99,24 @@ const DiseaseDetection: React.FC = () => {
       fetchHistory();
     } catch (error: any) {
       console.error('Error detecting disease:', error);
-      // Show user-friendly error message
+      console.error('Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        config: error.config
+      });
+      
+      // Show user-friendly error message based on the error type
       if (error.response?.status === 401) {
         toast.error('Please log in to use disease detection.');
+      } else if (error.response?.status === 500) {
+        toast.error('Backend server error. The disease detection service is currently unavailable. Please try again later or contact support.');
       } else if (error.response?.status === 503) {
         toast.error('Disease detection service is not configured. Please contact administrator.');
+      } else if (error.code === 'ECONNREFUSED' || error.message?.includes('Network Error')) {
+        toast.error('Cannot connect to the disease detection service. Please check your internet connection.');
       } else {
-        toast.error('Error detecting disease. Please try again.');
+        toast.error(`Error detecting disease: ${error.response?.data?.message || error.message || 'Unknown error'}. Please try again.`);
       }
     } finally {
       setIsUploading(false);

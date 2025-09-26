@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { cn } from '../utils/cn';
+import BackendStatus from './BackendStatus';
 
 interface ResponsiveLayoutProps {
   children: React.ReactNode;
@@ -258,10 +259,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) => {
               </div>
               
               {/* System status */}
-              <div className="flex items-center gap-x-2 text-sm text-gray-600">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span>Online</span>
-              </div>
+              <BackendStatus />
               
               {/* User Menu */}
               <div className="relative">
