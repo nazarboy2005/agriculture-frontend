@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
+import PerformanceMonitor from './components/PerformanceMonitor';
 import { Toaster } from 'react-hot-toast';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -30,12 +31,14 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
+        <PerformanceMonitor />
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-green-50">
           <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth/callback/google" element={<AuthCallback />} />
+        <Route path="/oauth2/redirect" element={<AuthCallback />} />
         <Route path="/auth/confirm-email" element={<ConfirmEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />

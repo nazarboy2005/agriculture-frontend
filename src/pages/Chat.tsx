@@ -278,75 +278,73 @@ const Chat: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <div className="max-w-7xl mx-auto p-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-              <Bot className="h-6 w-6 text-white" />
+      <div className="max-w-7xl mx-auto p-4">
+        {/* Modern Header */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Bot className="h-7 w-7 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">AI Farm Assistant</h1>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-green-600 font-medium">Online</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">AI Agricultural Consultant</h1>
-              <p className="text-gray-600 mt-1">Get personalized advice based on your farm data</p>
+            <div className="flex items-center space-x-3">
+              <Button
+                onClick={handleShowHistory}
+                variant="outline"
+                size="sm"
+                className="border-gray-300 hover:bg-gray-50 rounded-xl"
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                {showHistory ? 'Hide History' : 'History'}
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-gray-300 hover:bg-gray-50 rounded-xl"
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
             </div>
-          </div>
-          <div className="flex items-center space-x-3 mt-4 sm:mt-0">
-            <div className="flex items-center space-x-2 bg-green-50 px-3 py-2 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium text-green-700">Online</span>
-            </div>
-            <Button
-              onClick={handleShowHistory}
-              variant="outline"
-              className="border-gray-300 hover:bg-gray-50"
-            >
-              <MessageCircle className="h-4 w-4 mr-2" />
-              {showHistory ? 'Hide History' : 'View History'}
-            </Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Chat Interface */}
+          {/* Main Chat Interface */}
           <div className="lg:col-span-3">
-            <Card className="h-[700px] flex flex-col shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-              <CardHeader className="pb-4 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-md">
-                      <Bot className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">AI Agricultural Consultant</h3>
-                      <p className="text-sm text-gray-600">Always here to help with your farming needs</p>
-                    </div>
+            <div className="bg-white rounded-2xl shadow-xl border-0 overflow-hidden h-[calc(100vh-200px)] flex flex-col">
+              {/* Chat Header */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-100">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-md">
+                    <Bot className="h-5 w-5 text-white" />
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-gray-600 border-gray-300 hover:bg-gray-50"
-                    >
-                      <Settings className="h-4 w-4" />
-                    </Button>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">AI Agricultural Consultant</h3>
+                    <p className="text-sm text-gray-600">Ready to help with your farming questions</p>
                   </div>
                 </div>
-              </CardHeader>
+              </div>
               
-              <CardContent className="flex-1 flex flex-col p-0">
-                {/* Messages */}
-                <div 
-                  ref={messagesContainerRef}
-                  className="flex-1 overflow-y-auto space-y-6 p-6 bg-gradient-to-b from-white to-gray-50/50"
-                >
-                  {historyLoading ? (
-                    <div className="flex items-center justify-center h-32">
-                      <div className="flex items-center space-x-3">
-                        <Loader className="h-6 w-6 animate-spin text-blue-600" />
-                        <span className="text-sm text-gray-600">Loading chat history...</span>
-                      </div>
+              {/* Messages Area */}
+              <div 
+                ref={messagesContainerRef}
+                className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-white to-gray-50/50"
+              >
+                {historyLoading ? (
+                  <div className="flex items-center justify-center h-32">
+                    <div className="flex items-center space-x-3">
+                      <Loader className="h-6 w-6 animate-spin text-blue-600" />
+                      <span className="text-sm text-gray-600">Loading chat history...</span>
                     </div>
-                  ) : showHistory ? (
+                  </div>
+                ) : showHistory ? (
                     <div className="space-y-4">
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="text-lg font-semibold text-gray-900">Previous Conversations</h4>
@@ -406,19 +404,40 @@ const Chat: React.FC = () => {
                         </div>
                       )}
                     </div>
-                  ) : displayChats.length === 0 ? (
-                    <div className="text-center py-12">
-                      <div className="w-20 h-20 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Bot className="h-10 w-10 text-blue-600" />
+                ) : displayChats.length === 0 ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-center max-w-md">
+                      <div className="w-24 h-24 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <Bot className="h-12 w-12 text-blue-600" />
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Welcome to your AI Assistant!</h3>
-                      <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                        I'm here to help you with all your agricultural needs. Ask me anything about farming, crops, weather, or agricultural best practices.
+                      <h3 className="text-2xl font-bold text-gray-900 mb-3">Welcome to AI Farm Assistant!</h3>
+                      <p className="text-gray-600 mb-8 leading-relaxed">
+                        I'm your intelligent farming companion. Ask me anything about crops, weather, soil health, irrigation, or agricultural best practices.
                       </p>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="bg-blue-50 p-3 rounded-xl">
+                          <div className="text-2xl mb-1">🌱</div>
+                          <div className="text-sm font-medium text-blue-800">Crop Health</div>
+                        </div>
+                        <div className="bg-green-50 p-3 rounded-xl">
+                          <div className="text-2xl mb-1">🌤️</div>
+                          <div className="text-sm font-medium text-green-800">Weather</div>
+                        </div>
+                        <div className="bg-yellow-50 p-3 rounded-xl">
+                          <div className="text-2xl mb-1">💧</div>
+                          <div className="text-sm font-medium text-yellow-800">Irrigation</div>
+                        </div>
+                        <div className="bg-purple-50 p-3 rounded-xl">
+                          <div className="text-2xl mb-1">🧪</div>
+                          <div className="text-sm font-medium text-purple-800">Fertilizer</div>
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    displayChats.map((chat) => (
-                      <div key={chat.id} className="space-y-6">
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {displayChats.map((chat) => (
+                      <div key={chat.id} className="space-y-4">
                         {/* User Message */}
                         <MessageBubble
                           message={chat.userMessage || ''}
@@ -439,15 +458,16 @@ const Chat: React.FC = () => {
                           messageTypeOptions={messageTypeOptions}
                         />
                       </div>
-                    ))
-                  )}
-                  
-                  <TypingIndicator isVisible={isTyping} />
-                  
-                  <div ref={messagesEndRef} />
-                </div>
+                    ))}
+                    
+                    <TypingIndicator isVisible={isTyping} />
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </div>
 
-                {/* Message Input */}
+              {/* Message Input */}
+              <div className="border-t border-gray-100 bg-white p-4">
                 <ChatInput
                   message={message}
                   setMessage={setMessage}
@@ -457,21 +477,19 @@ const Chat: React.FC = () => {
                   isLoading={sendMessageMutation.isLoading}
                   placeholder="Ask me anything about your farm..."
                 />
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Search & Filter */}
-            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-              <CardHeader className="border-b border-gray-100">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <Search className="h-5 w-5 mr-2 text-blue-600" />
-                  Search & Filter
-                </h3>
-              </CardHeader>
-              <CardContent className="space-y-4 p-4">
+            <div className="bg-white rounded-2xl shadow-lg border-0 p-4">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center mb-4">
+                <Search className="h-5 w-5 mr-2 text-blue-600" />
+                Search & Filter
+              </h3>
+              <div className="space-y-3">
                 <Input
                   placeholder="Search messages..."
                   value={searchQuery}
@@ -502,37 +520,33 @@ const Chat: React.FC = () => {
                   <Filter className="h-4 w-4 mr-2" />
                   Clear Filters
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Quick Actions */}
-            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-4">
-                <QuickActions
-                  onQuestionSelect={(question, type) => {
-                    setMessage(question);
-                    setMessageType(type);
-                  }}
-                />
-              </CardContent>
-            </Card>
+            <div className="bg-white rounded-2xl shadow-lg border-0 p-4">
+              <QuickActions
+                onQuestionSelect={(question, type) => {
+                  setMessage(question);
+                  setMessageType(type);
+                }}
+              />
+            </div>
 
             {/* Chat Stats */}
-            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-4">
-                <ChatStats
-                  totalMessages={displayChats.length}
-                  weeklyMessages={displayChats.filter(chat => {
-                    const chatDate = new Date(chat.createdAt);
-                    const weekAgo = new Date();
-                    weekAgo.setDate(weekAgo.getDate() - 7);
-                    return chatDate >= weekAgo;
-                  }).length}
-                  helpfulResponses={displayChats.filter(chat => chat.isHelpful === true).length}
-                  responseRate={displayChats.length > 0 ? Math.round((displayChats.filter(chat => chat.isHelpful === true).length / displayChats.length) * 100) : 0}
-                />
-              </CardContent>
-            </Card>
+            <div className="bg-white rounded-2xl shadow-lg border-0 p-4">
+              <ChatStats
+                totalMessages={displayChats.length}
+                weeklyMessages={displayChats.filter(chat => {
+                  const chatDate = new Date(chat.createdAt);
+                  const weekAgo = new Date();
+                  weekAgo.setDate(weekAgo.getDate() - 7);
+                  return chatDate >= weekAgo;
+                }).length}
+                helpfulResponses={displayChats.filter(chat => chat.isHelpful === true).length}
+                responseRate={displayChats.length > 0 ? Math.round((displayChats.filter(chat => chat.isHelpful === true).length / displayChats.length) * 100) : 0}
+              />
+            </div>
           </div>
         </div>
       </div>

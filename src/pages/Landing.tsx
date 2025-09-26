@@ -103,29 +103,6 @@ const Landing: React.FC = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      name: 'Rajesh Kumar',
-      role: 'Rice Farmer, Punjab',
-      content: 'AgriSmart has transformed my farming completely. I\'ve saved 40% on water costs and increased my yield by 30%. The AI recommendations are incredibly accurate.',
-      rating: 5,
-      image: '👨‍🌾'
-    },
-    {
-      name: 'Priya Sharma',
-      role: 'Vegetable Farmer, Maharashtra',
-      content: 'The disease detection feature saved my entire tomato crop. I caught the blight early and treated it before it spread. This technology is a game-changer.',
-      rating: 5,
-      image: '👩‍🌾'
-    },
-    {
-      name: 'Amit Patel',
-      role: 'Cotton Farmer, Gujarat',
-      content: 'The heat alerts saved my cotton crop during the heatwave. I was able to take preventive measures and didn\'t lose a single plant.',
-      rating: 5,
-      image: '👨‍🌾'
-    }
-  ];
 
   const steps = [
     {
@@ -322,40 +299,6 @@ const Landing: React.FC = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-green-50/50 via-blue-50/50 to-indigo-50/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              What Farmers Are Saying
-            </h2>
-            <p className="text-xl text-gray-600">
-              Join thousands of farmers who have transformed their agricultural practices
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0 bg-white/90 backdrop-blur-sm">
-                <div className="flex items-center mb-6">
-                  <div className="text-4xl mr-4">{testimonial.image}</div>
-                  <div>
-                    <div className="font-bold text-gray-900 text-lg">{testimonial.name}</div>
-                    <div className="text-sm text-gray-500">{testimonial.role}</div>
-                  </div>
-                </div>
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 leading-relaxed text-lg italic">
-                  "{testimonial.content}"
-                </p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 via-blue-600 to-indigo-600 relative overflow-hidden">
@@ -390,63 +333,18 @@ const Landing: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
+      <footer className="bg-gray-900 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div>
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <Leaf className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold">AgriSmart</span>
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="flex items-center space-x-3 mb-4 md:mb-0">
+              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center shadow-lg">
+                <Leaf className="h-5 w-5 text-white" />
               </div>
-              <p className="text-gray-400 text-lg leading-relaxed mb-6">
-                Revolutionizing agriculture through AI and IoT technology. 
-                Empowering farmers with smart solutions for sustainable farming.
-              </p>
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
-                  <Globe className="h-5 w-5" />
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
-                  <Users className="h-5 w-5" />
-                </div>
-              </div>
+              <span className="text-xl font-bold">AgriSmart</span>
             </div>
-            <div>
-              <h3 className="font-bold text-lg mb-6">Product</h3>
-              <ul className="space-y-3 text-gray-400">
-                <li className="hover:text-white transition-colors cursor-pointer">AI Disease Detection</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Smart Irrigation</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Heat Alerts</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Zone Management</li>
-                <li className="hover:text-white transition-colors cursor-pointer">AI Consultant</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Analytics Dashboard</li>
-              </ul>
+            <div className="text-center text-gray-400">
+              <p>&copy; 2024 AgriSmart. All rights reserved. Made with ❤️ for farmers worldwide.</p>
             </div>
-            <div>
-              <h3 className="font-bold text-lg mb-6">Support</h3>
-              <ul className="space-y-3 text-gray-400">
-                <li className="hover:text-white transition-colors cursor-pointer">Documentation</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Help Center</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Community</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Contact Us</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Training</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-6">Company</h3>
-              <ul className="space-y-3 text-gray-400">
-                <li className="hover:text-white transition-colors cursor-pointer">About Us</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Careers</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Privacy Policy</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Terms of Service</li>
-                <li className="hover:text-white transition-colors cursor-pointer">Blog</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 AgriSmart. All rights reserved. Made with ❤️ for farmers worldwide.</p>
           </div>
         </div>
       </footer>

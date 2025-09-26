@@ -17,8 +17,10 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
   },
-  timeout: 60000, // 60 seconds timeout for chat API calls
+  timeout: 30000, // Reduced timeout for better UX
+  withCredentials: false, // Disable credentials for CORS
 });
 
 // Request interceptor
@@ -43,6 +45,12 @@ api.interceptors.response.use(
   (error) => {
     console.error('API Error:', error.response?.data || error.message);
     
+    // Handle network errors
+    if (!error.response) {
+      console.error('Network error - no response received');
+      return Promise.reject(new Error('Network error. Please check your connection.'));
+    }
+    
     // Handle 401 errors (unauthorized) - but not for disease detection
     if (error.response?.status === 401) {
       // Don't redirect for disease detection endpoints
@@ -54,6 +62,12 @@ api.interceptors.response.use(
         delete api.defaults.headers.common['Authorization'];
         window.location.href = '/login';
       }
+    }
+    
+    // Handle 500 errors with better messaging
+    if (error.response?.status === 500) {
+      console.error('Server error:', error.response.data);
+      return Promise.reject(new Error('Server error. Please try again later.'));
     }
     
     return Promise.reject(error);
